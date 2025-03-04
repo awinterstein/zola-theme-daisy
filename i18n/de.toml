@@ -1,0 +1,19 @@
+language_name = "Deutsch"
+language_symbol = "🇩🇪"
+language_locale = "de_DE"
+language_date_format = "%d. %B %Y"
+
+theme = "Farbpalette"
+change_language = "Sprache ändern"
+
+email = "E-Mail"
+phone = "Telefon"
+
+about = "Über"
+sitemap = "Sitemap"
+posts = "Posts"
+tags = "Tags"
+impressum = "Impressum"
+privacy_policy = "Datenschutzerklärung"
+blog = "Blog"
+resume = "Lebenslauf"

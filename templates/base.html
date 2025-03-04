@@ -1,0 +1,193 @@
+{%- import "macros/content.html" as content -%}
+{%- import "macros/icon.html" as icon -%}
+{%- import "macros/themes.html" as themes -%}
+
+{#- Load translations from i18n directory (preferred site directory, fallback theme directory) -#}
+{%- set i18n = load_data(path="i18n/" ~ lang ~ '.toml', required=false) -%}
+{%- if not i18n -%}{%- set i18n = load_data(path="themes/daisy/i18n/" ~ lang ~ ".toml", required=true) -%}{%- endif -%}
+
+<!doctype html>
+<html lang="{{ lang }}" data-theme="{% if config.extra.daisyui_theme_light %}{{ config.extra.daisyui_theme_light }}{% elif config.extra.daisyui_theme_dark %}{{ config.extra.daisyui_theme_dark }}{% endif %}">
+
+<head>
+    <title>{% block title %}{% if page.title %}{{ page.title }} | {% endif %}{{ config.title }}{% endblock title %}</title>
+
+    <!-- meta data -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}" />
+
+    <!-- stylesheets, fonts, feeds -->
+    <link rel="stylesheet" href="{{ config.base_url | safe }}/css/main.css?{{ get_hash(path='/css/main.css') | truncate(length=6, end="")}}" integrity="sha384-{{ get_hash(path="css/main.css", sha_type=384, base64=true) | safe }}">
+    {% if config.generate_feeds %}<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml">{% endif %}
+
+    <!-- favicon -->
+    {% if config.extra.favicon.svg %}<link rel="icon" href="{{ config.base_url | safe }}/{{ config.extra.favicon.svg }}" type="image/svg+xml">{% endif %}
+
+    {% if config.extra.daisyui_theme_light or config.extra.daisyui_theme_dark %}
+    <!-- java script for setting theme as saved in local storage (needs to be inline to avoid flicker) -->
+    <script>
+        {% if config.extra.daisyui_theme_light and config.extra.daisyui_theme_dark %}
+        // select default theme based on preferred color scheme (as set in the browser)
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            default_theme = '{{ config.extra.daisyui_theme_dark }}'
+        } else {
+            default_theme = '{{ config.extra.daisyui_theme_light }}'
+        }
+        {%- elif config.extra.daisyui_theme_light -%}
+        // set the light theme, if only this was configured
+        default_theme = '{{ config.extra.daisyui_theme_light }}'
+        {%- elif config.extra.daisyui_theme_dark -%}
+        // set the dark theme, if only this was configured
+        default_theme = '{{ config.extra.daisyui_theme_dark }}'
+        {% endif %}
+
+        // try to get theme from local storage and set it (or the default theme) to the HTML element
+        const theme = localStorage.getItem('theme') || default_theme;
+        document.documentElement.setAttribute("data-theme", theme);
+
+        // execute code after the DOM content was loaded
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // select theme at the theme selector (if it is present in the HTML code)
+            var btnEl = document.querySelector("[data-set-theme='" + theme.toString() + "']");
+            if (btnEl) {
+                btnEl.classList.add("btn-active")
+                btnEl.classList.add("btn-primary")
+            }
+        })
+    </script>
+    {%- endif %}
+
+    <script>
+        // execute code after the DOM content was loaded
+        document.addEventListener("DOMContentLoaded", function (event) {
+            // unhide elements that only work with java script being enabled (they are marked with 'needs-script')
+            document.querySelectorAll("[needs-script]").forEach(el => {
+                el.classList.remove("hidden")
+            })
+        })
+    </script>
+</head>
+
+<body class="h-screen">
+    <div class="drawer min-h-full">
+        <input id="main-drawer" type="checkbox" class="drawer-toggle lg:hidden" />
+        <div class="drawer-content flex min-h-full flex-col"><!-- to expand over the full screen even on short pages -->
+            <header class="navbar sticky top-0 z-50 text-primary-content bg-primary shadow-sm opacity-93">
+                <div class="navbar-start">
+                    {% if config.extra.navbar.links -%}
+                    <label for="main-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost hover:bg-primary-content hover:text-primary lg:hidden">
+                        {{ icon::list(class="h-6 w-6") }}
+                    </label>
+                    {% endif -%}
+                    {% if config.title %}<a class="btn btn-ghost hover:bg-primary-content hover:text-primary text-xl" href="/{% if lang != config.default_language%}{{ lang }}{% endif %}">{{ config.title }}</a>{% endif %}
+                </div>
+                <div class="navbar-center hidden lg:visible lg:flex">
+                    <ul class="menu menu-horizontal px-1 gap-x-2">
+                        {% if config.extra.navbar.links %}
+                        {% for link in config.extra.navbar.links %}
+                        <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="navbar-end">
+                    {% if config.extra.enable_theme_switching %}{{ themes::theme_dropdown(button=icon::themes(), label=i18n.theme) }}{% endif %}
+                    {% if config.languages | length > 0 %}
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" title="{{ i18n.change_language }}" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ icon::translate() }}</div>
+                        <ul tabindex="0" class="dropdown-content bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-scroll">
+                            <li><button class="btn btn-active btn-primary w-full">{{ i18n.language_name }}</button></li>
+                            {%- for language_code,language in config.languages -%}
+                            {#- Load translations for this other language from i18n directory (preferred site directory, fallback theme directory) -#}
+                            {%- set i18n_other = load_data(path="i18n/" ~ language_code ~ '.toml', required=false) -%}
+                            {%- if not i18n_other -%}{%- set i18n_other = load_data(path="themes/daisy/i18n/" ~ language_code ~ ".toml", required=true) -%}{%- endif -%}
+
+                            {% if page %}
+                                {% for item in page.translations %}
+                                    {% if item.lang == language_code %}
+                                        {% set_global translation_url = item.permalink %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if not translation_url %}
+                                    {{ throw(message='Translation to language ' ~ language_code ~ ' is missing for page ' ~ page.path) }}
+                                {% endif %}
+                            {% else %}
+                                {% if language_code == config.default_language %}
+                                    {% set translation_url = config.base_url | safe %}
+                                {% else %}
+                                    {% set translation_url = config.base_url ~ '/' ~ language_code %}
+                                {% endif %}
+                                {% if not current_path %}{% set current_path = "/" %}{% endif %}{# no current path on 404 error page, for example #}
+                                {% set trimmed_path = current_path | trim_start_matches(pat='/') | trim_start_matches(pat=lang) | trim_end_matches(pat='/') %}
+                                {% set translation_url = translation_url ~ '/' ~ trimmed_path %}
+                            {% endif %}
+
+                            <li><a href="{{ translation_url }}" class="btn btn-ghost w-full">{{ i18n_other.language_name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </header>
+
+            <main class="flex-1 flex justify-center">
+                <div class="flex-col flex-1 max-w-4xl">
+                    {% block content %}
+                    {% endblock content %}
+
+                    {% block pagination %}
+                    {% if paginator and paginator.number_pagers > 1 %}
+                    <!-- pagination -->
+                    <div class="join mx-auto w-full justify-center mt-4">
+                        {% for pager in range(start=1, end=paginator.number_pagers+1) %}
+                        <a href="{% if pager == 1 %}{{ paginator.first }}{% else %}{{ paginator.base_url }}{{ pager }}{% endif %}"
+                                class="join-item btn {% if paginator.current_index == pager %}btn-active btn-secondary{% endif %}" aria-label="{{ pager }}">
+                            {{ pager }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endblock pagination %}
+                </div>
+            </main>
+
+            <footer class="footer footer-horizontal footer-center bg-base-200 text-base-content rounded pt-4">
+                {% if config.extra.footer_links %}
+                <nav class="grid grid-flow-col gap-4">
+                    {% for link in config.extra.footer_links %}
+                    <a class="link link-hover" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a>
+                    {% endfor %}
+                </nav>
+                {% endif %}
+                <nav>
+                    <div class="grid grid-flow-col gap-4">
+                        {{ content::social_links(i18n=i18n) }}
+                        {% if config.generate_feeds %}
+                        <a href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml" title="RSS Feed" target="_blank">{{ icon::rss(class="h-8 w-8") }}</a>
+                        {% endif %}
+                    </div>
+                </nav>
+                {% if config.extra.footer_notice %}
+                <aside>
+                    <p>© {{ now() | date(format="%Y") }} {{ config.extra.footer_notice | safe }}</p>
+                </aside>
+                {% endif %}
+            </footer>
+        </div>
+
+        <div class="drawer-side z-60">
+            <label for="main-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <ul class="menu bg-base-200 min-h-full w-80 p-4">
+                {% if config.extra.navbar.links %}
+                {% for link in config.extra.navbar.links %}
+                <li><a class="link no-underline" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li>
+                {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+
+    <script src="{{ config.base_url | safe }}/js/theme-change.js?{{ get_hash(path='/js/theme-change.js') | truncate(length=6, end="")}}" integrity="sha384-{{ get_hash(path="js/theme-change.js", sha_type=384, base64=true) | safe }}"></script>
+</body>
