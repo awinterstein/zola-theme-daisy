@@ -1,0 +1,38 @@
+{% macro social_links(i18n) %}
+{% if config.extra.social.codeberg %}
+<a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ icon::git(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.github %}
+<a href="{{ config.extra.social.github }}" title="Github" target="_blank">{{ icon::github(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.gitlab %}
+<a href="{{ config.extra.social.gitlab }}" title="Gitlab" target="_blank">{{ icon::gitlab(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.stackoverflow %}
+<a href="{{ config.extra.social.stackoverflow }}" title="Stack Overflow" target="_blank">{{ icon::stackoverflow(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.mastodon %}
+<a href="{{ config.extra.social.mastodon }}" title="Mastodon" target="_blank" rel="me">{{ icon::mastodon(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.linkedin %}
+<a href="{{ config.extra.social.linkedin }}" title="LinkedIn" target="_blank">{{ icon::linkedin(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.instagram %}
+<a href="{{ config.extra.social.instagram }}" title="Instagram" target="_blank">{{ icon::instagram(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.youtube %}
+<a href="{{ config.extra.social.youtube }}" title="Youtube" target="_blank">{{ icon::youtube(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.signal %}
+<a href="{{ config.extra.social.signal }}" title="Signal" target="_blank">{{ icon::signal(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.telegram %}
+<a href="{{ config.extra.social.telegram }}" title="Telegram" target="_blank">{{ icon::telegram(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.email %}
+<a href="mailto:{{ config.extra.social.email }}" title="{{ i18n.email }}" target="_blank">{{ icon::email(class="h-8 w-8") }}</a>
+{% endif %}
+{% if config.extra.social.phone %}
+<a href="tel:{{ config.extra.social.phone }}" title="{{ i18n.phone }}" target="_blank">{{ icon::phone(class="h-8 w-8") }}</a>
+{% endif %}
+{% endmacro %}
