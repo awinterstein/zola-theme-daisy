@@ -1,0 +1,199 @@
+@import "/usr/local/lib/node_modules/tailwindcss";
+
+@plugin "/usr/local/lib/node_modules/daisyui" {
+    themes: all;
+}
+
+@plugin "/usr/local/lib/node_modules/daisyui/theme" {
+    name: "winterstein-light";
+    color-scheme: "light";
+    --color-base-100: oklch(96% 0.001 286.375);
+    --color-base-200: oklch(92% 0.004 286.32);
+    --color-base-300: oklch(87% 0.006 286.286);
+    --color-base-content: oklch(12% 0.042 264.695);
+    --color-primary: oklch(38% 0.176 304.987);
+    --color-primary-content: oklch(100% 0 0);
+    --color-secondary: oklch(66% 0.179 58.318);
+    --color-secondary-content: oklch(98% 0.003 247.858);
+    --color-accent: oklch(60% 0.118 184.704);
+    --color-accent-content: oklch(12% 0.042 264.695);
+    --color-neutral: oklch(98% 0.003 247.858);
+    --color-neutral-content: oklch(12% 0.042 264.695);
+    --color-info: oklch(79.061% 0.121 237.133);
+    --color-info-content: oklch(15.812% 0.024 237.133);
+    --color-success: oklch(78.119% 0.192 132.154);
+    --color-success-content: oklch(15.623% 0.038 132.154);
+    --color-warning: oklch(86.127% 0.136 102.891);
+    --color-warning-content: oklch(17.225% 0.027 102.891);
+    --color-error: oklch(71.753% 0.176 22.568);
+    --color-error-content: oklch(14.35% 0.035 22.568);
+    --radius-selector: 1rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+
+@plugin "/usr/local/lib/node_modules/daisyui/theme" {
+    name: "winterstein-dark";
+    color-scheme: "dark";
+    --color-base-100: oklch(21% 0.006 285.885);
+    --color-base-200: oklch(27% 0.006 286.033);
+    --color-base-300: oklch(37% 0.013 285.805);
+    --color-base-content: oklch(98% 0.003 247.858);
+    --color-primary: oklch(38% 0.176 304.987);
+    --color-primary-content: oklch(100% 0 0);
+    --color-secondary: oklch(66% 0.179 58.318);
+    --color-secondary-content: oklch(98% 0.003 247.858);
+    --color-accent: oklch(60% 0.118 184.704);
+    --color-accent-content: oklch(12% 0.042 264.695);
+    --color-neutral: oklch(98% 0.003 247.858);
+    --color-neutral-content: oklch(12% 0.042 264.695);
+    --color-info: oklch(79.061% 0.121 237.133);
+    --color-info-content: oklch(15.812% 0.024 237.133);
+    --color-success: oklch(78.119% 0.192 132.154);
+    --color-success-content: oklch(15.623% 0.038 132.154);
+    --color-warning: oklch(86.127% 0.136 102.891);
+    --color-warning-content: oklch(17.225% 0.027 102.891);
+    --color-error: oklch(71.753% 0.176 22.568);
+    --color-error-content: oklch(14.35% 0.035 22.568);
+    --radius-selector: 1rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+
+@layer base {
+    h1 {
+        @apply text-3xl;
+        @apply pb-4;
+    }
+
+    h2 {
+        @apply text-2xl;
+        @apply py-2;
+    }
+
+    h3 {
+        @apply text-xl;
+        @apply pb-2;
+    }
+
+    h4 {
+        @apply text-lg;
+    }
+
+    p {
+        @apply pb-4;
+    }
+
+    main ul, ol {
+        @apply list-outside;
+        @apply pl-6;
+        /* Indent the list elements. */
+        @apply mb-4;
+        /* The bottom of the list should have a margin, like the paragraphs. */
+
+        /* Lists within a list, however, should not have a bottom margin. */
+        ul,
+        ol {
+            @apply mb-0;
+        }
+    }
+
+    /* Disk style for all unordered lists within the "main" element of the site. */
+    main ul {
+        @apply list-disc;
+    }
+
+    /* Decimal style for all ordered lists within the "main" element of the site. */
+    main ol {
+        @apply list-decimal;
+    }
+
+    blockquote {
+        p {
+            @apply py-0;
+        }
+
+        @apply italic;
+        @apply border-l-2;
+        @apply border-neutral-500;
+        @apply pl-4;
+        @apply mb-4;
+        @apply text-neutral-600;
+        @apply dark:text-neutral-400;
+    }
+
+    pre {
+        @apply p-4 mb-4;
+        @apply overflow-x-auto;
+        @apply @max-2xl:w-full; /* full width of the parent container; needed to aso shrink accordingly */
+        @apply rounded-box;
+    }
+
+    strong, em {
+        @apply text-accent;
+    }
+
+    a {
+        @apply underline;
+    }
+
+    kbd {
+        @apply kbd;
+    }
+
+    figure {
+        @apply w-full overflow-x-auto;
+    }
+
+    table {
+        @apply table table-zebra;
+        @apply mb-4;
+    }
+
+    .breadcrumbs {
+        a {
+            @apply no-underline;
+        }
+
+        ul {
+            @apply mx-0 px-0
+        }
+    }
+
+    .footnote-definition p {
+        @apply inline;
+    }
+
+    .search-results {
+        b {
+            @apply bg-primary;
+            @apply text-primary-content;
+        }
+        a {
+            @apply no-underline;
+        }
+    }
+}
+
+/* Color definitions for the syntax highlighting */
+.z-code {
+    @apply text-base-content;
+    @apply bg-base-200;
+}
+
+/* Theme-specific overrides */
+[data-theme="winterstein-light"],[data-theme="winterstein-dark"] {
+    h1, h2, h3, h4, h5, h6 {
+        @apply text-secondary;
+    }
+}

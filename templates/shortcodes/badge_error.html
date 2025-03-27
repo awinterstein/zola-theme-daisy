@@ -1,0 +1,5 @@
+{%- import "macros/icon.html" as icon -%}
+<div class="badge badge-error">
+    {% if icon %}{{ icon::error(class="") }}{% endif %}
+    <span>{{ body }}</span>
+</div>
