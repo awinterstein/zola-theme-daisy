@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex flex-col items-center">
+    <h1>{{ section.title }}</h1>
+    <p>{{ section.content | safe }}</p>
+
+    {# The section might be paginated or not, depending on the parameter in the index.md file. #}
+    {% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
+
+    {{ content::cards(pages=pages, i18n=i18n) }}
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{%- import "macros/icon.html" as icon -%}
+{% if type == "warning" %}
+{{ icon::warning(class="") }}
+{% elif type == "instagram" %}
+{{ icon::instagram(class="") }}
+{% elif type == "youtube" %}
+{{ icon::youtube(class="") }}
+{% elif type == "email" %}
+{{ icon::email(class="") }}
+{% elif type == "phone" %}
+{{ icon::phone(class="") }}
+{% endif %}

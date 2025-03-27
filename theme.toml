@@ -1,0 +1,85 @@
+name = "Daisy"
+description = "Beautiful and fast responsive theme based on TailwindCSS and DaisyUI."
+license = "MIT"
+homepage = "https://codeberg.org/winterstein/zola-theme-daisy"
+min_version = "0.9.0"                                                                 # The minimum version of Zola required
+demo = "https://zola-daisy.winterstein.biz"                                           # Live demo URL
+tags = ["multilingual", "responsive", "search"]
+
+[author]
+name = "Adrian Winterstein"
+homepage = "https://www.winterstein.biz"
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customized by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+highlight_theme = "css"
+
+# Any variable there can be overridden in the end user `config.toml`
+# You don't need to prefix variables by the theme name but as this will
+# be merged with user data, some kind of prefix or nesting is preferable
+# Use snake_casing to be consistent with the rest of Zola
+[extra]
+# Switches for optional features
+enable_theme_switching = false
+
+daisyui_theme_light = "light"
+daisyui_theme_dark = "dark"
+
+themes = [
+    { identifier = "light", name = "Light" },
+    { identifier = "dark", name = "Dark" },
+    { identifier = "cupcake", name = "Cupcake" },
+    { identifier = "bumblebee", name = "Bumblebee" },
+    { identifier = "emerald", name = "Emerald" },
+    { identifier = "corporate", name = "Corporate" },
+    { identifier = "synthwave", name = "Synthwave" },
+    { identifier = "retro", name = "Retro" },
+    { identifier = "cyberpunk", name = "Cyberpunk" },
+    { identifier = "valentine", name = "Valentine" },
+    { identifier = "halloween", name = "Halloween" },
+    { identifier = "garden", name = "Garden" },
+    { identifier = "forest", name = "Forest" },
+    { identifier = "aqua", name = "Aqua" },
+    { identifier = "lofi", name = "Lofi" },
+    { identifier = "pastel", name = "Pastel" },
+    { identifier = "fantasy", name = "Fantasy" },
+    { identifier = "wireframe", name = "Wireframe" },
+    { identifier = "black", name = "Black" },
+    { identifier = "luxury", name = "Luxury" },
+    { identifier = "dracula", name = "Dracula" },
+    { identifier = "cmyk", name = "CMYK" },
+    { identifier = "autumn", name = "Autumn" },
+    { identifier = "business", name = "Business" },
+    { identifier = "acid", name = "Acid" },
+    { identifier = "lemonade", name = "Lemonade" },
+    { identifier = "night", name = "Night" },
+    { identifier = "coffee", name = "Coffee" },
+    { identifier = "winter", name = "Winter" },
+    { identifier = "dim", name = "Dim" },
+    { identifier = "nord", name = "Nord" },
+    { identifier = "sunset", name = "Sunset" },
+    { identifier = "caramellatte", name = "Caramellatte" },
+    { identifier = "abyss", name = "Abyss" },
+    { identifier = "silk", name = "Silk" },
+    { identifier = "winterstein-light", name = "Winterstein Light" },
+    { identifier = "winterstein-dark", name = "Winterstein Dark" },
+]
+
+[extra.footer]
+notice = ""
+
+[extra.social]
+codeberg = ""
+github = ""
+gitlab = ""
+stackoverflow = ""
+mastodon = ""
+linkedin = ""
+instagram = ""
+youtube = ""
+signal = ""
+telegram = ""
+email = ""
+phone = ""

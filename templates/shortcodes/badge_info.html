@@ -1,0 +1,5 @@
+{%- import "macros/icon.html" as icon -%}
+<div class="badge badge-soft badge-info">
+    {% if icon %}{{ icon::info(class="") }}{% endif %}
+    <span>{{ body }}</span>
+</div>

@@ -1,0 +1,23 @@
+language_name = "English"
+language_symbol = "🇬🇧"
+language_locale = "en_GB"
+language_date_format = "%v"
+
+language = "Language"
+theme = "Theme"
+change_language = "Change Language"
+search = "Search"
+read = "Read"
+
+email = "Email"
+phone = "Phone"
+
+about = "About"
+sitemap = "Sitemap"
+posts = "Posts"
+tags = "Tags"
+impressum = "Impressum (Legal Notice)"
+privacy_policy = "Privacy Policy"
+blog = "Blog"
+resume = "CV"
+movies = "Movies"

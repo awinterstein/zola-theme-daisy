@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% block breadcrumb %}
+<div class="breadcrumbs text-sm">
+    <ul>
+        <li><a href="{{ config.base_url | safe }}/{% if lang != config.default_language%}{{ lang }}{% endif %}">Home</a></li>
+        {% set current = section | default(value=page) %}
+        {% for ancestor in current.ancestors %}
+        {% if loop.first %}
+        {% continue %}
+        {% endif %}
+        {% set section = get_section(path=ancestor) %}
+        <li><a class="breadcrumb-path" href="{{ section.permalink }}">{{ section.title }}</a></li>
+        {% endfor %}
+        <li><a class="breadcrumb-path active" href="{{ current.permalink }}">{{ current.title }}</a></li>
+    </ul>
+</div>
+{% endblock breadcrumb %}
+
+<h1>{{ page.title}}</h1>
+
+<!-- Metadata (date and authors) -->
+<div class="flex flex-wrap space-x-6 pl-1 mb-4">
+    {% if page.date %}
+    <span class="flex items-center whitespace-nowrap">
+        {{ icon::calendar(class="") }}
+        <span class=""><time datetime="{{ page.date }}">{{ page.date | date(format=i18n['language_date_format'], locale=i18n['language_locale']) }}</time></span>
+    </span>
+    {% endif %}
+
+    {% if page.authors %}
+    <span class="flex items-center whitespace-nowrap">
+        {% if page.authors | length == 1 %}{{ icon::person() }}{% else %}{{ icon::people() }}{% endif %}
+        <span>{{ page.authors | join(sep=", ") }}</span>
+    </span>
+    {% endif %}
+</div>
+
+{{ page.content | safe }}
+{% endblock %}
