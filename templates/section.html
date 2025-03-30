@@ -9,8 +9,7 @@
     {# The section might be paginated or not, depending on the parameter in the index.md file. #}
     {% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
 
-    {{ content::cards(pages=pages, i18n=i18n) }}
+    {{ content::cards(pages=pages, i18n=i18n, icons=icons) }}
 </div>
-
 
 {% endblock %}

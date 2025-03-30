@@ -6,46 +6,57 @@
     <link rel="stylesheet" href="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
 {% endmacro %}
 
-{% macro social_links(i18n) %}
+{%- macro icon(id, class="", label="", icons="") -%}
+{% if icons == "" %}
+{#- Load icons from the root directory (preferred site directory, fallback theme directory) -#}
+{%- set icons = load_data(path="icons.toml", required=false) -%}
+{%- if not icons -%}{%- set icons = load_data(path="themes/daisy/icons.toml", required=true) -%}{%- endif -%}
+{% endif %}
+<svg role="img" aria-label="{% if label != '' %}{{ label }}{% else %}{{ id | capitalize }}{% endif %}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block h-4 w-4 mr-2 {{ class }}" viewBox="0 0 16 16">
+    {{ icons[id] | safe }}
+</svg>
+{%- endmacro -%}
+
+{% macro social_links(i18n, icons) %}
 {% if config.extra.social.codeberg %}
-<a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ icon::git(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ content::icon(id="git", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.github %}
-<a href="{{ config.extra.social.github }}" title="Github" target="_blank">{{ icon::github(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.github }}" title="Github" target="_blank">{{ content::icon(id="github", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.gitlab %}
-<a href="{{ config.extra.social.gitlab }}" title="Gitlab" target="_blank">{{ icon::gitlab(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.gitlab }}" title="Gitlab" target="_blank">{{ content::icon(id="gitlab", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.stackoverflow %}
-<a href="{{ config.extra.social.stackoverflow }}" title="Stack Overflow" target="_blank">{{ icon::stackoverflow(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.stackoverflow }}" title="Stack Overflow" target="_blank">{{ content::icon(id="stackoverflow", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.mastodon %}
-<a href="{{ config.extra.social.mastodon }}" title="Mastodon" target="_blank" rel="me">{{ icon::mastodon(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.mastodon }}" title="Mastodon" target="_blank" rel="me">{{ content::icon(id="mastodon", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.linkedin %}
-<a href="{{ config.extra.social.linkedin }}" title="LinkedIn" target="_blank">{{ icon::linkedin(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.linkedin }}" title="LinkedIn" target="_blank">{{ content::icon(id="linkedin", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.instagram %}
-<a href="{{ config.extra.social.instagram }}" title="Instagram" target="_blank">{{ icon::instagram(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.instagram }}" title="Instagram" target="_blank">{{ content::icon(id="instagram", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.youtube %}
-<a href="{{ config.extra.social.youtube }}" title="Youtube" target="_blank">{{ icon::youtube(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.youtube }}" title="Youtube" target="_blank">{{ content::icon(id="youtube", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.signal %}
-<a href="{{ config.extra.social.signal }}" title="Signal" target="_blank">{{ icon::signal(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.signal }}" title="Signal" target="_blank">{{ content::icon(id="signal", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.telegram %}
-<a href="{{ config.extra.social.telegram }}" title="Telegram" target="_blank">{{ icon::telegram(class="h-8 w-8") }}</a>
+<a href="{{ config.extra.social.telegram }}" title="Telegram" target="_blank">{{ content::icon(id="telegram", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.email %}
-<a href="mailto:{{ config.extra.social.email }}" title="{{ i18n.email }}" target="_blank">{{ icon::email(class="h-8 w-8") }}</a>
+<a href="mailto:{{ config.extra.social.email }}" title="{{ i18n.email }}" target="_blank">{{ content::icon(id="email", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.phone %}
-<a href="tel:{{ config.extra.social.phone }}" title="{{ i18n.phone }}" target="_blank">{{ icon::phone(class="h-8 w-8") }}</a>
+<a href="tel:{{ config.extra.social.phone }}" title="{{ i18n.phone }}" target="_blank">{{ content::icon(id="phone", label=i18n.phone, class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% endmacro %}
 
-{% macro cards(pages, i18n) %}
+{% macro cards(pages, i18n, icons) %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     {% for page in pages %}
     <div class="card card-border bg-base-200 grow basis-0 max-w-100">
@@ -57,7 +68,7 @@
             <div class="flex flex-wrap space-x-6 pl-1 mb-2">
                 {% if page.date %}
                 <span class="flex items-center whitespace-nowrap">
-                    {{ icon::calendar(class="") }}
+                    {{ content::icon(id="calendar", icons=icons) }}
                     <span><time datetime="{{ page.date }}">{{ page.date | date(format=i18n['language_date_format'],
                             locale=i18n['language_locale']) }}</time></span>
                 </span>
@@ -65,7 +76,7 @@
 
                 {% if page.authors %}
                 <span class="flex items-center whitespace-nowrap">
-                    {% if page.authors | length == 1 %}{{ icon::person() }}{% else %}{{ icon::people() }}{% endif %}
+                    {% if page.authors | length == 1 %}{{ content::icon(id="person", icons=icons) }}{% else %}{{ content::icon(id="people", icons=icons) }}{% endif %}
                     <span>{{ page.authors | join(sep=", ") }}</span>
                 </span>
                 {% endif %}

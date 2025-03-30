@@ -25,14 +25,14 @@
 <div class="flex flex-wrap space-x-6 pl-1 mb-4">
     {% if page.date %}
     <span class="flex items-center whitespace-nowrap">
-        {{ icon::calendar(class="") }}
+        {{ content::icon(id="calendar", icons=icons) }}
         <span class=""><time datetime="{{ page.date }}">{{ page.date | date(format=i18n['language_date_format'], locale=i18n['language_locale']) }}</time></span>
     </span>
     {% endif %}
 
     {% if page.authors %}
     <span class="flex items-center whitespace-nowrap">
-        {% if page.authors | length == 1 %}{{ icon::person() }}{% else %}{{ icon::people() }}{% endif %}
+        {% if page.authors | length == 1 %}{{ content::icon(id="person", icons=icons) }}{% else %}{{ content::icon(id="people", icons=icons) }}{% endif %}
         <span>{{ page.authors | join(sep=", ") }}</span>
     </span>
     {% endif %}

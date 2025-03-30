@@ -1,10 +1,13 @@
 {%- import "macros/content.html" as content -%}
-{%- import "macros/icon.html" as icon -%}
 {%- import "macros/themes.html" as themes -%}
 
 {#- Load translations from i18n directory (preferred site directory, fallback theme directory) -#}
 {%- set i18n = load_data(path="i18n/" ~ lang ~ '.toml', required=false) -%}
 {%- if not i18n -%}{%- set i18n = load_data(path="themes/daisy/i18n/" ~ lang ~ ".toml", required=true) -%}{%- endif -%}
+
+{#- Load icons from the root directory (preferred site directory, fallback theme directory) -#}
+{%- set icons = load_data(path="icons.toml", required=false) -%}
+{%- if not icons -%}{%- set icons = load_data(path="themes/daisy/icons.toml", required=true) -%}{%- endif -%}
 
 <!doctype html>
 <html lang="{{ lang }}" data-theme="{% if config.extra.daisyui_theme_light %}{{ config.extra.daisyui_theme_light }}{% elif config.extra.daisyui_theme_dark %}{{ config.extra.daisyui_theme_dark }}{% endif %}">
@@ -88,10 +91,10 @@
                     </ul>
                 </div>
                 <div class="navbar-end">
-                    {% if config.extra.enable_theme_switching %}{{ themes::theme_dropdown(button=icon::themes(), label=i18n.theme) }}{% endif %}
+                    {% if config.extra.enable_theme_switching %}{{ themes::theme_dropdown(button=content::icon(id="themes", icons=icons), label=i18n.theme) }}{% endif %}
                     {% if config.languages | length > 0 %}
                     <div class="dropdown dropdown-end max-lg:hidden">
-                        <div tabindex="0" title="{{ i18n.change_language }}" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ icon::translate() }}</div>
+                        <div tabindex="0" title="{{ i18n.change_language }}" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ content::icon(id="translate", icons=icons) }}</div>
                         <ul tabindex="0" class="dropdown-content bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-scroll">
                             <li><button class="btn btn-active btn-primary w-full">{{ i18n.language_name }}</button></li>
                             {%- for language_code,language in config.languages -%}
@@ -127,28 +130,28 @@
                     {% if config.build_search_index %}
                     <div class="max-md:hidden">
                         <label tabindex="0" class="input text-primary bg-primary-content focus:outline-teal-500">
-                            {{ icon::search(class="h-[1em] opacity-50") }}
+                            {{ content::icon(id="search", class="h-[1em] opacity-50", icons=icons) }}
                             <input id="desktop-search" type="search" class="search-input grow" placeholder="{{ i18n.search }}" />
                             <kbd class="kbd kbd-sm bg-primary text-primary-content">⌘</kbd>
                             <kbd class="kbd kbd-sm bg-primary text-primary-content">K</kbd>
                         </label>
                     </div>
                     <button id="search-button" for="search-bar" aria-label="open search" class="btn btn-square btn-ghost swap swap-rotate hover:bg-primary-content hover:text-primary md:hidden">
-                        {{ icon::search() }}
+                        {{ content::icon(id="search", icons=icons) }}
                     </button>
                     {% endif %}
                     {% if config.extra.navbar.links or config.extra.enable_theme_switching or config.languages | length > 0 -%}
                     <label for="main-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost swap swap-rotate hover:bg-primary-content hover:text-primary lg:hidden">
                         <input type="checkbox" />
-                        {{ icon::list(class="h-6 w-6 swap-off [:checked~*_&]:!-rotate-45 [:checked~*_&]:!opacity-0") }}
-                        {{ icon::x(class="h-5 w-5 swap-on [:checked~*_&]:!rotate-0 [:checked~*_&]:!opacity-100") }}
+                        {{ content::icon(id="list", class="h-6 w-6 swap-off [:checked~*_&]:!-rotate-45 [:checked~*_&]:!opacity-0", icons=icons) }}
+                        {{ content::icon(id="x", class="h-5 w-5 swap-on [:checked~*_&]:!rotate-0 [:checked~*_&]:!opacity-100", icons=icons) }}
                     </label>
                     {% endif -%}
                 </div>
                 </div>
                 <div id="search-bar" class="hidden md:hidden pl-2 pr-2 pb-2">
                     <label tabindex="0" class="input text-primary bg-primary-content w-full">
-                        {{ icon::search(class="h-[1em] opacity-50") }}
+                        {{ content::icon(id="search", class="h-[1em] opacity-50", icons=icons) }}
                         <input id="mobile-search" type="search" class="search-input grow" placeholder="{{ i18n.search }}" />
                     </label>
                 </div>
@@ -192,9 +195,9 @@
                 {% endif %}
                 <nav>
                     <div class="grid grid-flow-col gap-4">
-                        {{ content::social_links(i18n=i18n) }}
+                        {{ content::social_links(i18n=i18n, icons=icons) }}
                         {% if config.generate_feeds %}
-                        <a href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml" title="RSS Feed" target="_blank">{{ icon::rss(class="h-8 w-8") }}</a>
+                        <a href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml" title="RSS Feed" target="_blank">{{ content::icon(id="rss", class="h-8 w-8", icons=icons) }}</a>
                         {% endif %}
                     </div>
                 </nav>
