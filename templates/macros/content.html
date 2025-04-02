@@ -17,6 +17,16 @@
 </svg>
 {%- endmacro -%}
 
+{% macro navbar_button(url, text, text_class) %}
+{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{% endif %} {# Empty for default language and language for others. #}
+<a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}"
+    {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
+        class="bg-secondary text-secondary-content no-underline px-3 rounded-md" {# Highlight button, if button URL is part of the current path. #}
+    {% else %} class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" {% endif %}>
+        <span class="{{ text_class }}">{{ text }}</span>
+</a>
+{% endmacro %}
+
 {% macro social_links(i18n, icons) %}
 {% if config.extra.social.codeberg %}
 <a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ content::icon(id="git", class="h-8 w-8", icons=icons) }}</a>
@@ -83,7 +93,7 @@
             </div>
             {% if page.summary %}{{ page.summary | safe }}{% else %}<p>{{ page.description }}</p>{% endif %}
             <div class="card-actions justify-end">
-                <a href="{{ page.permalink }}" class="btn btn-primary">{{ i18n.read }}</a>
+                <a href="{{ page.permalink }}" class="btn btn-secondary">{{ i18n.read }}</a>
             </div>
         </div>
     </div>

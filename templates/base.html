@@ -86,7 +86,8 @@
                     <ul class="menu menu-horizontal px-1 gap-x-2">
                         {% if config.extra.navbar.links %}
                         {% for link in config.extra.navbar.links %}
-                        <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li>
+                        <li>{{ content::navbar_button(url=link.url, text=i18n[link.i18n_key], text_class="") }}</li>
+                        {# <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li> #}
                         {% endfor %}
                         {% endif %}
                     </ul>
@@ -154,7 +155,7 @@
             <div class="join mx-auto w-full justify-center mt-4 mb-4">
                 {% for pager in range(start=1, end=paginator.number_pagers+1) %}
                 <a href="{% if pager == 1 %}{{ paginator.first }}{% else %}{{ paginator.base_url }}{{ pager }}{% endif %}"
-                    class="join-item btn {% if paginator.current_index == pager %}btn-active btn-primary{% endif %}"
+                    class="join-item btn {% if paginator.current_index == pager %}btn-active btn-secondary{% endif %}"
                     aria-label="{{ pager }}">
                     {{ pager }}
                 </a>
