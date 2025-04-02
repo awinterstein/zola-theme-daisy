@@ -1,5 +1,6 @@
 {%- import "macros/content.html" as content -%}
 {%- import "macros/themes.html" as themes -%}
+{%- import "macros/translation.html" as translation -%}
 
 {#- Load translations from i18n directory (preferred site directory, fallback theme directory) -#}
 {%- set i18n = load_data(path="i18n/" ~ lang ~ '.toml', required=false) -%}
@@ -98,31 +99,7 @@
                         <ul tabindex="0" class="dropdown-content bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-scroll">
                             <li><button class="btn btn-active btn-primary w-full">{{ i18n.language_name }}</button></li>
                             {%- for language_code,language in config.languages -%}
-                            {#- Load translations for this other language from i18n directory (preferred site directory, fallback theme directory) -#}
-                            {%- set i18n_other = load_data(path="i18n/" ~ language_code ~ '.toml', required=false) -%}
-                            {%- if not i18n_other -%}{%- set i18n_other = load_data(path="themes/daisy/i18n/" ~ language_code ~ ".toml", required=true) -%}{%- endif -%}
-
-                            {% if page %}
-                                {% for item in page.translations %}
-                                    {% if item.lang == language_code %}
-                                        {% set_global translation_url = item.permalink %}
-                                    {% endif %}
-                                {% endfor %}
-                                {% if not translation_url %}
-                                    {{ throw(message='Translation to language ' ~ language_code ~ ' is missing for page ' ~ page.path) }}
-                                {% endif %}
-                            {% else %}
-                                {% if language_code == config.default_language %}
-                                    {% set translation_url = config.base_url | safe %}
-                                {% else %}
-                                    {% set translation_url = config.base_url ~ '/' ~ language_code %}
-                                {% endif %}
-                                {% if not current_path %}{% set current_path = "/" %}{% endif %}{# no current path on 404 error page, for example #}
-                                {% set trimmed_path = current_path | trim_start_matches(pat='/') | trim_start_matches(pat=lang) | trim_end_matches(pat='/') %}
-                                {% set translation_url = translation_url ~ '/' ~ trimmed_path %}
-                            {% endif %}
-
-                            <li><a href="{{ translation_url }}" class="btn btn-ghost w-full">{{ i18n_other.language_name }}</a></li>
+                            <li>{{ translation::link_to_translated_page(page=page | default(value=""), language_code=language_code, class="btn btn-ghost w-full") }}</li>
                             {% endfor %}
                         </ul>
                     </div>
@@ -224,31 +201,7 @@
                     <ul>
                         <li><a href="{% if page %}{{ page.permalink }}{% else %}{% endif %}" class="no-underline menu-active">{{ i18n.language_name }}</a></li>
                         {%- for language_code,language in config.languages -%}
-                        {#- Load translations for this other language from i18n directory (preferred site directory, fallback theme directory) -#}
-                        {%- set i18n_other = load_data(path="i18n/" ~ language_code ~ '.toml', required=false) -%}
-                        {%- if not i18n_other -%}{%- set i18n_other = load_data(path="themes/daisy/i18n/" ~ language_code ~ ".toml", required=true) -%}{%- endif -%}
-
-                        {% if page %}
-                        {% for item in page.translations %}
-                        {% if item.lang == language_code %}
-                        {% set_global translation_url = item.permalink %}
-                        {% endif %}
-                        {% endfor %}
-                        {% if not translation_url %}
-                        {{ throw(message='Translation to language ' ~ language_code ~ ' is missing for page ' ~ page.path) }}
-                        {% endif %}
-                        {% else %}
-                        {% if language_code == config.default_language %}
-                        {% set translation_url = config.base_url | safe %}
-                        {% else %}
-                        {% set translation_url = config.base_url ~ '/' ~ language_code %}
-                        {% endif %}
-                        {% if not current_path %}{% set current_path = "/" %}{% endif %}{# no current path on 404 error page, for example #}
-                        {% set trimmed_path = current_path | trim_start_matches(pat='/') | trim_start_matches(pat=lang) | trim_end_matches(pat='/') %}
-                        {% set translation_url = translation_url ~ '/' ~ trimmed_path %}
-                        {% endif %}
-
-                        <li><a href="{{ translation_url }}" class="no-underline">{{ i18n_other.language_name }}</a></li>
+                        <li>{{ translation::link_to_translated_page(page=page | default(value=""), language_code=language_code, class="no-underline") }}</li>
                         {% endfor %}
                     </ul>
                 </details></li>

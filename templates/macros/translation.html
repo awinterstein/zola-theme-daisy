@@ -1,0 +1,31 @@
+{% macro link_to_translated_page(page, language_code, class="") %}
+    {#- Load translations for this other language from i18n directory (preferred site directory, fallback theme directory) -#}
+    {%- set i18n_other = load_data(path="i18n/" ~ language_code ~ '.toml', required=false) -%}
+    {%- if not i18n_other -%}{%- set i18n_other = load_data(path="themes/daisy/i18n/" ~ language_code ~ ".toml", required=true) -%}{%- endif -%}
+
+    {% if page %}
+        {% for item in page.translations %}
+            {% if item.lang == language_code %}
+                {% set_global translation_url = item.permalink %}
+            {% endif %}
+        {% endfor %}
+        {% if not translation_url %}
+            {% if language_code == config.default_language %}
+                {% set translation_url = config.base_url | safe %}
+            {% else %}
+                {% set translation_url = config.base_url ~ '/' ~ language_code %}
+            {% endif %}
+        {% endif %}
+    {% else %}
+        {% if language_code == config.default_language %}
+            {% set translation_url = config.base_url | safe %}
+        {% else %}
+            {% set translation_url = config.base_url ~ '/' ~ language_code %}
+        {% endif %}
+        {% if not current_path %}{% set current_path = "/" %}{% endif %}{# no current path on 404 error page, for example #}
+        {% set trimmed_path = current_path | trim_start_matches(pat='/') | trim_start_matches(pat=lang) | trim_end_matches(pat='/') %}
+        {% set translation_url = translation_url ~ '/' ~ trimmed_path %}
+    {% endif %}
+
+    <a href="{{ translation_url }}" class="{{ class }}">{{ i18n_other.language_name }}</a>
+{% endmacro %}
