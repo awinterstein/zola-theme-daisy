@@ -29,7 +29,7 @@
 
 {% macro social_links(i18n, icons) %}
 {% if config.extra.social.codeberg %}
-<a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ content::icon(id="git", class="h-8 w-8", icons=icons) }}</a>
+<a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ content::icon(id="codeberg", class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% if config.extra.social.github %}
 <a href="{{ config.extra.social.github }}" title="Github" target="_blank">{{ content::icon(id="github", class="h-8 w-8", icons=icons) }}</a>
