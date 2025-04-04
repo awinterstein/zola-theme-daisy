@@ -100,3 +100,9 @@
     {% endfor %}
 </div>
 {% endmacro %}
+
+{% macro term(term, show_count=true, icon_id="tag", icons) %}
+<span class="flex items-center whitespace-nowrap">
+    {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ config.base_url | safe }}{{term.path }}" class="no-underline hover:underline">{{ term.name}}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
+</span>
+{% endmacro %}
