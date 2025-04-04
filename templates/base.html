@@ -163,21 +163,19 @@
             </div>
             {% endif %}
 
-            <footer class="footer footer-horizontal footer-center bg-base-200 text-base-content rounded pt-4">
+            <footer class="footer footer-horizontal footer-center bg-base-200 text-base-content rounded pt-6 gap-0">
                 {% if config.extra.footer.links %}
-                <nav class="grid grid-flow-col gap-4">
+                <nav class="grid grid-flow-col gap-4 mb-6">
                     {% for link in config.extra.footer.links %}
                     <a class="link link-hover" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a>
                     {% endfor %}
                 </nav>
                 {% endif %}
-                <nav>
-                    <div class="grid grid-flow-col gap-4">
+                <nav class="grid grid-flow-col gap-4 mb-6">
                         {{ content::social_links(i18n=i18n, icons=icons) }}
                         {% if config.generate_feeds %}
                         <a href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml" title="RSS Feed" target="_blank">{{ content::icon(id="rss", class="h-8 w-8", icons=icons) }}</a>
                         {% endif %}
-                    </div>
                 </nav>
                 {% if config.extra.footer.notice %}
                 <aside>
@@ -222,7 +220,7 @@
         </div>
     </div>
 
-    {{ content::include_script(file="js/theme-change.js") }}
+    {% if config.extra.enable_theme_switching %}{{ content::include_script(file="js/theme-change.js") }}{% endif %}
     {% if config.build_search_index and config.search.index_format == "elasticlunr_json" -%}
     {{ content::include_script(file="js/search.js", additional_tags='lang="' ~ lang ~ '"') }}
     {{ content::include_script(file="elasticlunr.min.js") }}
@@ -231,4 +229,5 @@
     {{ content::include_script(file="lunr." ~ lang ~ ".min.js") }}
     {% endif %}
     {% endif %}
+    {%- block extra_javascript -%}{%- endblock extra_javascript -%}
 </body>
