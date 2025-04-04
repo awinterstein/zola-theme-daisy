@@ -69,7 +69,7 @@
 {% macro cards(pages, i18n, icons) %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     {% for page in pages %}
-    <div class="card card-border bg-base-200 grow basis-0 max-w-100">
+    <div class="card card-border bg-base-200 grow basis-0 max-w-100 shadow-xl transform transition duration-500 hover:scale-103">
         <div class="card-body grow">
             <a href="{{ page.permalink }}" class="no-underline">
                 <h2 class="card-title">{{ page.title }}</h2>
