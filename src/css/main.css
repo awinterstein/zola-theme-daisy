@@ -96,14 +96,11 @@
 
     main ul, ol {
         @apply list-outside;
-        @apply pl-6;
-        /* Indent the list elements. */
-        @apply mb-4;
-        /* The bottom of the list should have a margin, like the paragraphs. */
+        @apply pl-6; /* Indent the list elements. */
+        @apply mb-4; /* The bottom of the list should have a margin, like the paragraphs. */
 
         /* Lists within a list, however, should not have a bottom margin. */
-        ul,
-        ol {
+        ul, ol {
             @apply mb-0;
         }
     }
@@ -139,8 +136,17 @@
         @apply rounded-box;
     }
 
+    code {
+        @apply text-accent;
+    }
+
     strong, em {
         @apply text-accent;
+    }
+
+    mark {
+        @apply bg-accent;
+        @apply text-accent-content;
     }
 
     a {
@@ -163,6 +169,7 @@
     .breadcrumbs {
         a {
             @apply no-underline;
+            @apply hover:underline;
         }
 
         ul {
@@ -179,6 +186,7 @@
             @apply bg-primary;
             @apply text-primary-content;
         }
+
         a {
             @apply no-underline;
         }
@@ -191,9 +199,11 @@
     @apply bg-base-200;
 }
 
-/* Theme-specific overrides */
+/* Color scheme-specific overrides */
 [data-theme="winterstein-light"],[data-theme="winterstein-dark"] {
     h1, h2, h3, h4, h5, h6 {
         @apply text-secondary;
     }
 }
+
+@import "./syntax-highlight.css"
