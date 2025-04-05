@@ -27,6 +27,16 @@
 </a>
 {% endmacro %}
 
+{% macro drawer_button(url, text) %}
+{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{% endif %} {# Empty for default language and language for others. #}
+<li><a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}"
+    {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
+        class="link no-underline menu-active" {# Highlight button, if button URL is part of the current path. #}
+    {% else %} class="link no-underline" {% endif %}>
+        {{ text }}
+</a></li>
+{% endmacro %}
+
 {% macro social_links(i18n, icons) %}
 {% if config.extra.social.codeberg %}
 <a href="{{ config.extra.social.codeberg }}" title="Codeberg" target="_blank">{{ content::icon(id="codeberg", class="h-8 w-8", icons=icons) }}</a>

@@ -192,7 +192,7 @@
             <ul class="menu menu-lg bg-base-200 min-h-full w-80 p-4">
                 {% if config.extra.navbar.links %}
                 {% for link in config.extra.navbar.links %}
-                <li><a class="link no-underline" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li>
+                {{ content::drawer_button(url=link.url, text=i18n[link.i18n_key]) }}
                 {% endfor %}
                 {% endif %}
                 <hr class="mt-2 mb-2" />
