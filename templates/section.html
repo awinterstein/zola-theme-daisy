@@ -4,7 +4,20 @@
 
 <div class="flex flex-col items-center mt-10">
     <h1>{{ section.title }}</h1>
+
     <p>{{ section.content | safe }}</p>
+
+    {#- Show the list of tags on top of the cards, if a taxonomy is defined for that and there is more than one tag in use -#}
+    {% if section.extra.tags_taxonomy %}
+    {% set tags = get_taxonomy(kind=section.extra.tags_taxonomy, lang=lang) %}
+    {% if tags.items | length > 1 %}
+    <div class="flex flex-wrap justify-center flex-row gap-x-7 gap-y-5 mt-6 mb-6">
+        {% for item in tags.items %}
+        {{ content::term(term=item, icons=icons) }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endif %}
 
     {# The section might be paginated or not, depending on the parameter in the index.md file. #}
     {% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = section.pages %}{% endif %}
