@@ -21,7 +21,7 @@
 
 <h1>{{ page.title}}</h1>
 
-<!-- Metadata (date and authors) -->
+{# Metadata (date, authors, word count, read time, tags) #}
 <div class="flex flex-wrap space-x-6 pl-1 mb-4">
     {% if page.date %}
     <span class="flex items-center whitespace-nowrap">
@@ -35,6 +35,30 @@
         {% if page.authors | length == 1 %}{{ content::icon(id="person", icons=icons) }}{% else %}{{ content::icon(id="people", icons=icons) }}{% endif %}
         <span>{{ page.authors | join(sep=", ") }}</span>
     </span>
+    {% endif %}
+
+    {# Show word count and read time only, if the metadata line is already visible anyways #}
+    {% if page.date or page.authors or page.taxonomies | length > 0 %}
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="pencil", icons=icons) }}
+        <span class="ml-1">{{ page.word_count }} {{ i18n.words }}</span>
+    </span>
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="clock", icons=icons) }}
+        <span class="ml-1">{{ page.reading_time }} {{ i18n.minutes }}</span>
+    </span>
+    {% endif %}
+
+    {# Show all taxonomy elements of the page as tags, if there are any #}
+    {% if page.taxonomies | length > 0 %}
+    {% for taxonomy, elements in page.taxonomies %}
+    {% for element in elements %}
+    <span class="flex items-center whitespace-nowrap">
+        {{ content::icon(id="tag", icons=icons) }}
+        <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ element }}</a>
+    </span>
+    {% endfor %}
+    {% endfor %}
     {% endif %}
 </div>
 

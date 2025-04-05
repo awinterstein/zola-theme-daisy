@@ -8,6 +8,8 @@ theme = "Theme"
 change_language = "Change Language"
 search = "Search"
 read = "Read"
+words = "words"
+minutes = "minutes"
 
 email = "Email"
 phone = "Phone"

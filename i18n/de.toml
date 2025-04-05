@@ -8,6 +8,8 @@ theme = "Farbpalette"
 change_language = "Sprache ändern"
 search = "Suchen"
 read = "Lesen"
+words = "Wörter"
+minutes = "Minuten"
 
 email = "E-Mail"
 phone = "Telefon"
