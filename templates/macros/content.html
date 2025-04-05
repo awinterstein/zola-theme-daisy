@@ -1,20 +1,18 @@
-{% macro include_script(file, additional_tags="") %}
+{%- macro include_script(file, additional_tags="") -%}
     <script src="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %} {{ additional_tags | safe }}></script>
-{% endmacro %}
+{%- endmacro -%}
 
-{% macro include_stylesheet(file) %}
+{%- macro include_stylesheet(file) -%}
     <link rel="stylesheet" href="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
-{% endmacro %}
+{%- endmacro -%}
 
 {%- macro icon(id, class="", label="", icons="") -%}
-{% if icons == "" %}
+{%- if icons == "" -%}
 {#- Load icons from the root directory (preferred site directory, fallback theme directory) -#}
 {%- set icons = load_data(path="icons.toml", required=false) -%}
 {%- if not icons -%}{%- set icons = load_data(path="themes/daisy/icons.toml", required=true) -%}{%- endif -%}
-{% endif %}
-<svg role="img" aria-label="{% if label != '' %}{{ label }}{% else %}{{ id | capitalize }}{% endif %}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block h-4 w-4 mr-2 {{ class }}" viewBox="0 0 16 16">
-    {{ icons[id] | safe }}
-</svg>
+{%- endif -%}
+<svg role="img" aria-label="{% if label != '' %}{{ label }}{% else %}{{ id | capitalize }}{% endif %}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block h-4 w-4 mr-2 {{ class }}" viewBox="0 0 16 16">{{ icons[id] | safe }}</svg>
 {%- endmacro -%}
 
 {% macro navbar_button(url, text, text_class) %}

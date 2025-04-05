@@ -1,10 +1,10 @@
 {% macro theme_dropdown(button, label) %}
-<div needs-script class="dropdown dropdown-end hidden max-lg:hidden">
-    <div title="{{ label }}" tabindex="0" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ button | safe }}</div>
-    <ul data-choose-theme tabindex="0" class="dropdown-content bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 h-120 p-2 shadow-sm overflow-scroll">
-        {% for theme in config.extra.themes %}
-        <li><button class="btn btn-ghost w-full" data-set-theme="{{ theme.identifier }}">{{ theme.name }}</button></li>
-        {% endfor %}
-    </ul>
-</div>
+                    <div class="dropdown dropdown-end max-lg:hidden">
+                        <div title="{{ label }}" tabindex="0" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ button | safe }}</div>
+                        <ul data-choose-theme tabindex="0" class="dropdown-content bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 h-120 p-2 shadow-sm overflow-scroll">
+                            {% for theme in config.extra.themes -%}
+                            <li><button class="btn btn-ghost w-full" data-set-theme="{{ theme.identifier }}">{{ theme.name }}</button></li>
+                            {% endfor -%}
+                        </ul>
+                    </div>
 {% endmacro %}
