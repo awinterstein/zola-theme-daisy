@@ -23,10 +23,10 @@
 
     <!-- stylesheets, fonts, feeds -->
     {{ content::include_stylesheet(file="css/main.css") }}
-    {% if config.generate_feeds %}<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml">{% endif %}
+    {% if config.generate_feeds %}<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ content::base_path() }}{% if lang != config.default_language %}{{ lang }}/{% endif %}atom.xml">{% endif %}
 
     <!-- favicon -->
-    {% if config.extra.favicon.svg %}<link rel="icon" href="{{ config.base_url | safe }}/{{ config.extra.favicon.svg }}" type="image/svg+xml">{% endif %}
+    {% if config.extra.favicon.svg %}<link rel="icon" href="{{ content::base_path() }}{{ config.extra.favicon.svg }}" type="image/svg+xml">{% endif %}
 
     {% if config.extra.daisyui_theme_light or config.extra.daisyui_theme_dark -%}
     <!-- java script for setting theme as saved in local storage (needs to be inline to avoid flicker) -->
@@ -72,14 +72,14 @@
             <header class="sticky top-0 z-50 text-primary-content bg-primary shadow-sm opacity-93">
                 <div class="navbar">
                 <div class="navbar-start">
-                    {% if config.title %}<a class="btn btn-ghost hover:bg-primary-content hover:text-primary text-xl" href="{{ config.base_url | safe }}{% if lang != config.default_language%}/{{ lang }}{% endif %}">{{ config.title }}</a>{% endif %}
+                    {% if config.title %}<a class="btn btn-ghost hover:bg-primary-content hover:text-primary text-xl" href="{{ content::base_path() }}{% if lang != config.default_language%}{{ lang }}{% endif %}">{{ config.title }}</a>{% endif %}
                 </div>
                 <div class="navbar-center max-lg:hidden lg:flex">
                     <ul class="menu menu-horizontal px-1 gap-x-2">
                         {% if config.extra.navbar.links -%}
                         {% for link in config.extra.navbar.links %}
                         <li>{{ content::navbar_button(url=link.url, text=i18n[link.i18n_key], text_class="") }}</li>
-                        {# <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li> #}
+                        {# <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li> #}
                         {% endfor %}
                         {% endif %}
                     </ul>
@@ -158,14 +158,14 @@
                 {% if config.extra.footer.links %}
                 <nav class="grid grid-flow-col gap-4 mb-6">
                     {% for link in config.extra.footer.links %}
-                    <a class="link link-hover" href="{{ config.base_url | safe }}{% if lang != config.default_language and not link.no_translation %}/{{ lang }}{% endif %}/{{ link.url}}">{{ i18n[link.i18n_key] }}</a>
+                    <a class="link link-hover" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n[link.i18n_key] }}</a>
                     {% endfor %}
                 </nav>
                 {% endif %}
                 <nav class="grid grid-flow-col gap-4 mb-6">
                         {{ content::social_links(i18n=i18n, icons=icons) }}
                         {% if config.generate_feeds %}
-                        <a href="{{ config.base_url | safe }}{% if lang != config.default_language %}/{{ lang }}{% endif %}/atom.xml" title="RSS Feed" target="_blank">{{ content::icon(id="rss", class="h-8 w-8", icons=icons) }}</a>
+                        <a href="{{ content::base_path() }}{% if lang != config.default_language %}{{ lang }}/{% endif %}atom.xml" title="RSS Feed" target="_blank">{{ content::icon(id="rss", class="h-8 w-8", icons=icons) }}</a>
                         {% endif %}
                 </nav>
                 {% if config.extra.footer.notice %}

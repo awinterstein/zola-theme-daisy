@@ -5,7 +5,7 @@
 {% block breadcrumb %}
 <div class="breadcrumbs text-sm">
     <ul>
-        <li><a href="{{ config.base_url | safe }}/{% if lang != config.default_language%}{{ lang }}{% endif %}">Home</a></li>
+        <li><a href="{{ content::base_path() }}{% if lang != config.default_language%}{{ lang }}{% endif %}">Home</a></li>
         {% set current = section | default(value=page) %}
         {% for ancestor in current.ancestors %}
         {% if loop.first %}

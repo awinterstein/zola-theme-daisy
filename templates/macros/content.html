@@ -1,9 +1,17 @@
+{#- Create absolute path without domain part from the base_url -#}
+{%- macro base_path() -%}
+{%- set base_without_protocol = config.base_url | trim_start_matches(pat="https://") | trim_start_matches(pat="http://") -%}
+{%- set temp = base_without_protocol | split(pat="/") -%}
+{% set base_without_domain = base_without_protocol | trim_start_matches(pat=temp[0]) | trim_end_matches(pat="/") | safe %}
+{{- base_without_domain ~ '/' | safe -}}
+{%- endmacro -%}
+
 {%- macro include_script(file, additional_tags="") -%}
-    <script src="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %} {{ additional_tags | safe }}></script>
+    <script src="{{ content::base_path() }}{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %} {{ additional_tags | safe }}></script>
 {%- endmacro -%}
 
 {%- macro include_stylesheet(file) -%}
-    <link rel="stylesheet" href="{{ config.base_url | safe }}/{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
+    <link rel="stylesheet" href="{{ content::base_path() }}{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
 {%- endmacro -%}
 
 {%- macro icon(id, class="", label="", icons="") -%}
@@ -16,8 +24,8 @@
 {%- endmacro -%}
 
 {% macro navbar_button(url, text, text_class) %}
-{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{% endif %} {# Empty for default language and language for others. #}
-<a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}"
+{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang ~ '/' %}{% endif %} {# Empty for default language and language for others. #}
+<a href="{{ content::base_path() }}{{ language_url_part }}{{ url }}"
     {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
         class="bg-secondary text-secondary-content no-underline px-3 rounded-md" {# Highlight button, if button URL is part of the current path. #}
     {% else %} class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" {% endif %}>
@@ -26,8 +34,8 @@
 {% endmacro %}
 
 {% macro drawer_button(url, text) %}
-{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang %}{% endif %} {# Empty for default language and language for others. #}
-<li><a href="{{ config.base_url | trim_end_matches(pat='/') | safe }}/{{ language_url_part }}/{{ url }}"
+{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang ~ '/' %}{% endif %} {# Empty for default language and language for others. #}
+<li><a href="{{ content::base_path() }}{{ language_url_part }}{{ url }}"
     {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
         class="link no-underline menu-active" {# Highlight button, if button URL is part of the current path. #}
     {% else %} class="link no-underline" {% endif %}>
@@ -128,6 +136,6 @@
 
 {% macro term(term, show_count=true, icon_id="tag", icons) %}
 <span class="flex items-center whitespace-nowrap">
-    {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ config.base_url | safe }}{{term.path }}" class="no-underline hover:underline">{{ term.name}}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
+    {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ content::base_path() }}{{term.path | trim_start_matches(pat="/") }}" class="no-underline hover:underline">{{ term.name}}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
 </span>
 {% endmacro %}
