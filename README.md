@@ -40,7 +40,7 @@ git submodule add -b main \
     themes/daisy
 ```
 
-Please make sure to add it at the path `themes/daisy` in your Zola directory. The translations won't work if added to a different directory.
+Please make sure to add it at the path `themes/daisy` in your Zola directory. The translations and the icons won't work if added to a different directory.
 
 As the second step, it can be enabled then in the `config.toml` file of your website:
 
@@ -88,8 +88,8 @@ description = "Beispiel- und Demoseite des Daisy-Themas für Zola."
 
 # don't forget to enable features like search or feed
 # generation for the additional language as well
-generate_feeds = true
 build_search_index = true
+generate_feeds = true
 
 # also any taxonomies of your default language need to
 # be defined for the additional language as well
@@ -98,8 +98,6 @@ taxonomies = [
     { name = "directors", paginate_by = 2, feed = true },
 ]
 ```
-
-The language switching feature of the theme requires that there is a translation into every additional language for every page. This is enforced during compile time.
 
 Taxonomies should have exactly the same (not translated) name in all languages, for the language switching to work best.
 
