@@ -1,5 +1,5 @@
 {%- import "macros/content.html" as content -%}
-<div class="badge badge-success">
+<span class="badge badge-success">
     {% if icon %}{{ content::icon(id="success") }}{% endif %}
     <span>{{ body | safe }}</span>
-</div>
+</span>
