@@ -1,0 +1,21 @@
+name: Check Generated Files
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: zola-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create CSS output
+        run: tailwindcss -i src/css/main.css -o static/css/main.css --minify
+      - name: Check for changed files
+        run: |
+          if [ ! -z "$(git status --untracked-files=no --porcelain)" ]; then
+            echo "::warning::$(git status --untracked-files=no --porcelain)"
+            echo "::error title=Changed files::There are changed files in the repository after build"
+            exit 1
+          fi
