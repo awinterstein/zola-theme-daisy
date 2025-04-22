@@ -1,0 +1,40 @@
+# Required by the theme
+language_locale = "hu_HU"
+language_date_format = "%Y. %b. %-e."
+
+words = "szó"
+minutes = "perc"
+read = "Tovább"
+
+
+# Required by the theme
+# (depending on enabled features of the theme)
+search = "Keresés"
+language = "Nyelv"
+language_name = "Magyar"
+change_language = "Nyelv megváltoztatása"
+theme = "Téma"
+
+email = "E-mail"
+phone = "Telefon"
+
+
+# Used by sites based on the theme
+# (not necessarily needed in all languages)
+about = "Névjegy"
+blog = "Blog"
+comments = "Hozzászólások"
+home = "Kezdőlap"
+impressum = "Impresszum (Jogi nyilatkozat)"
+main_skills = "Szakmai erősségek"
+movies = "Filmek"
+other_skills = "További ismeretek"
+posts = "Bejegyzések"
+privacy_policy = "Adatvédelmi irányelvek"
+projects = "Projektek"
+read_more = "Tovább olvasom"
+resume = "Önéletrajz"
+sitemap = "Oldaltérkép"
+skills = "Készségek"
+skills_technologies = "Készségek & Szakmai képességek"
+tags = "Címkék"
