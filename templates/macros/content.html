@@ -118,7 +118,7 @@
             {% for element in elements %}
             <span class="flex items-center whitespace-nowrap">
                 {{ content::icon(id="tag", icons=icons) }}
-                <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ element }}</a>
+                <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ content::translate(value=element, i18n=i18n) }}</a>
             </span>
             {% endfor %}
             {% endfor %}
@@ -134,8 +134,17 @@
 </div>
 {% endmacro %}
 
-{% macro term(term, show_count=true, icon_id="tag", icons) %}
+{% macro term(term, show_count=true, icon_id="tag", i18n, icons) %}
 <span class="flex items-center whitespace-nowrap">
-    {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ content::base_path() }}{{term.path | trim_start_matches(pat="/") }}" class="no-underline hover:underline">{{ term.name}}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
+    {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ content::base_path() }}{{term.path | trim_start_matches(pat="/") }}" class="no-underline hover:underline">{{ content::translate(value=term.name, i18n=i18n) }}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
 </span>
+{% endmacro %}
+
+{# Optionally translates a value, if it exists in the translation file for the current language. If it does not      #}
+{# exist, then just the given value is printed without translating. For being able to load the translation from the  #}
+{# language file, the given value is slugified (lowercase, no spaces etc.), but with all dashes being underscores.   #}
+{# This is needed, to match the variable format of the language files, which are defined in the TOML language.       #}
+{% macro translate(value, i18n) %}
+{% set identifier = value | slugify | replace(from="-", to="_") %}
+{{ i18n[identifier] | default(value=value) }}
 {% endmacro %}
