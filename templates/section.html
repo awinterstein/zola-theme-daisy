@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="flex flex-col items-center mt-10">
-    <h1>{{ section.title }}</h1>
+    <h1>{{ content::translate(value=section.title, i18n=i18n) | title }}</h1>
 
     <p>{{ section.content | safe }}</p>
 
@@ -13,7 +13,7 @@
     {% if tags.items | length > 1 %}
     <div class="flex flex-wrap justify-center flex-row gap-x-7 gap-y-5 mt-6 mb-6">
         {% for item in tags.items %}
-        {{ content::term(term=item, icons=icons) }}
+        {{ content::term(term=item, i18n=i18n, icons=icons) }}
         {% endfor %}
     </div>
     {% endif %}

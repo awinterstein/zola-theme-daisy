@@ -6,7 +6,7 @@
 {% if paginator %}{% set pages = paginator.pages %}{% else %}{% set pages = term.pages %}{% endif %}
 
 <div class="flex flex-col items-center mt-10">
-    <h1 class="">{{ term.name | title }}</h1>
+    <h1 class="">{{ content::translate(value=term.name, i18n=i18n) | title }}</h1>
     <p>{{ content::cards(pages=pages, i18n=i18n, icons=icons) }}</p>
 </div>
 

@@ -57,7 +57,7 @@
     {% for element in elements %}
     <span class="flex items-center whitespace-nowrap">
         {{ content::icon(id="tag", icons=icons) }}
-        <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ element }}</a>
+        <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ content::translate(value=element, i18n=i18n) }}</a>
     </span>
     {% endfor %}
     {% endfor %}
