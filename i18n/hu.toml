@@ -3,6 +3,7 @@ language_locale = "hu_HU"
 language_date_format = "%Y. %b. %-e."
 
 words = "szó"
+minute = "perc"
 minutes = "perc"
 read = "Tovább"
 

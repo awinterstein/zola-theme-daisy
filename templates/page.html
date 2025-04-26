@@ -45,7 +45,9 @@
     </span>
     <span class="flex items-center whitespace-nowrap">
         {{ content::icon(id="clock", icons=icons) }}
-        <span class="ml-1">{{ page.reading_time }} {{ i18n.minutes }}</span>
+        <span class="ml-1">{{ page.reading_time }}
+            {% if page.reading_time == 1 %}{{ i18n['minute'] }}{% else %}{{ i18n['minutes'] }}{% endif %}
+        </span>
     </span>
     {% endif %}
 

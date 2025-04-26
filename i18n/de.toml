@@ -3,6 +3,7 @@ language_locale = "de_DE"
 language_date_format = "%d. %B %Y"
 
 words = "Wörter"
+minute = "Minute"
 minutes = "Minuten"
 read = "Lesen"
 

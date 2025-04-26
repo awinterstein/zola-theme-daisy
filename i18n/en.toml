@@ -4,6 +4,7 @@ language_date_format = "%v"
 
 read = "Read"
 words = "words"
+minute = "minute"
 minutes = "minutes"
 
 
