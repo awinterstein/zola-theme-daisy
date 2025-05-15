@@ -26,7 +26,7 @@
     {% if page.date %}
     <span class="flex items-center whitespace-nowrap">
         {{ content::icon(id="calendar", icons=icons) }}
-        <span class=""><time datetime="{{ page.date }}">{{ page.date | date(format=i18n['language_date_format'], locale=i18n['language_locale']) }}</time></span>
+        <span class=""><time datetime="{{ page.date }}">{{ page.date | date(format=i18n_user['language_date_format'] | default(value=i18n['language_date_format']), locale=i18n_user['language_locale'] | default(value=i18n['language_locale'])) }}</time></span>
     </span>
     {% endif %}
 
@@ -41,12 +41,12 @@
     {% if page.date or page.authors or page.taxonomies | length > 0 %}
     <span class="flex items-center whitespace-nowrap">
         {{ content::icon(id="pencil", icons=icons) }}
-        <span class="ml-1">{{ page.word_count }} {{ i18n.words }}</span>
+        <span class="ml-1">{{ page.word_count }} {{ content::translate(value="words", i18n=i18n, i18n_user=i18n_user) }}</span>
     </span>
     <span class="flex items-center whitespace-nowrap">
         {{ content::icon(id="clock", icons=icons) }}
         <span class="ml-1">{{ page.reading_time }}
-            {% if page.reading_time == 1 %}{{ i18n['minute'] }}{% else %}{{ i18n['minutes'] }}{% endif %}
+            {% if page.reading_time == 1 %}{{ content::translate(value="minute", i18n=i18n, i18n_user=i18n_user) }}{% else %}{{ content::translate(value="minutes", i18n=i18n, i18n_user=i18n_user) }}{% endif %}
         </span>
     </span>
     {% endif %}
@@ -57,7 +57,7 @@
     {% for element in elements %}
     <span class="flex items-center whitespace-nowrap">
         {{ content::icon(id="tag", icons=icons) }}
-        <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ content::translate(value=element, i18n=i18n) }}</a>
+        <a href="{{ get_taxonomy_url(kind=taxonomy, name=element, lang=lang) }}" class="no-underline hover:underline">{{ content::translate(value=element, i18n=i18n, i18n_user=i18n_user) }}</a>
     </span>
     {% endfor %}
     {% endfor %}

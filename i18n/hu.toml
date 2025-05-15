@@ -18,27 +18,3 @@ theme = "Téma"
 
 email = "E-mail"
 phone = "Telefon"
-
-
-# Used by sites based on the theme
-# (not necessarily needed in all languages)
-about = "Névjegy"
-blog = "Blog"
-comments = "Hozzászólások"
-documentation = "Dokumentáció"
-example = "Példa"
-home = "Kezdőlap"
-impressum = "Impresszum (Jogi nyilatkozat)"
-main_skills = "Szakmai erősségek"
-movies = "Filmek"
-other_skills = "További ismeretek"
-posts = "Bejegyzések"
-privacy_policy = "Adatvédelmi irányelvek"
-projects = "Projektek"
-read_more = "Tovább olvasom"
-resume = "Önéletrajz"
-sitemap = "Oldaltérkép"
-skills = "Készségek"
-skills_technologies = "Készségek & Szakmai képességek"
-tags = "Címkék"
-yorgos_lanthimos = "Jórgosz Lánthimosz"

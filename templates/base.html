@@ -2,9 +2,10 @@
 {%- import "macros/themes.html" as themes -%}
 {%- import "macros/translation.html" as translation -%}
 
-{#- Load translations from i18n directory (preferred site directory, fallback theme directory) -#}
-{%- set i18n = load_data(path="i18n/" ~ lang ~ '.toml', required=false) -%}
-{%- if not i18n -%}{%- set i18n = load_data(path="themes/daisy/i18n/" ~ lang ~ ".toml", required=true) -%}{%- endif -%}
+{#- Load translations from i18n directory (theme directory and optionally the site directory) -#}
+{%- set i18n = load_data(path="themes/daisy/i18n/" ~ lang ~ ".toml", required=true) -%}
+{%- set i18n_user = load_data(path="i18n/" ~ lang ~ '.toml', required=false) -%}
+{%- if not i18n_user -%}{%- set i18n_user = [] -%}{%- endif -%}
 
 {#- Load icons from the root directory (preferred site directory, fallback theme directory) -#}
 {%- set icons = load_data(path="icons.toml", required=false) -%}
@@ -78,19 +79,19 @@
                     <ul class="menu menu-horizontal px-1 gap-x-2">
                         {% if config.extra.navbar.links -%}
                         {% for link in config.extra.navbar.links %}
-                        <li>{{ content::navbar_button(url=link.url, text=i18n[link.i18n_key], text_class="") }}</li>
-                        {# <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n[link.i18n_key] }}</a></li> #}
+                        <li>{{ content::navbar_button(url=link.url, text=i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key]), text_class="") }}</li>
+                        {# <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key]) }}</a></li> #}
                         {% endfor %}
                         {% endif %}
                     </ul>
                 </div>
                 <div class="navbar-end">
-                    {%- if config.extra.enable_theme_switching %}{{ themes::theme_dropdown(button=content::icon(id="themes", icons=icons), label=i18n.theme) }}{% endif %}
+                    {%- if config.extra.enable_theme_switching %}{{ themes::theme_dropdown(button=content::icon(id="themes", icons=icons), label=content::translate(value="Theme", i18n=i18n, i18n_user=i18n_user)) }}{% endif %}
                     {% if config.languages | length > 0 %}
                     <div class="dropdown dropdown-end max-lg:hidden">
-                        <div tabindex="0" title="{{ i18n.change_language }}" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ content::icon(id="translate", icons=icons) }}</div>
+                        <div tabindex="0" title="{{ content::translate(value='Change Language', i18n=i18n, i18n_user=i18n_user) }}" role="button" class="btn btn-ghost rounded-field hover:bg-primary-content hover:text-primary">{{ content::icon(id="translate", icons=icons) }}</div>
                         <ul tabindex="0" class="dropdown-content bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-scroll">
-                            <li><button class="btn btn-active btn-primary w-full">{{ i18n.language_name }}</button></li>
+                            <li><button class="btn btn-active btn-primary w-full">{{ content::translate(value='language_name', i18n=i18n, i18n_user=i18n_user) }}</button></li>
                             {%- for language_code,language in config.languages -%}
                             <li>{{ translation::link_to_translated_page(page=page | default(value=""), language_code=language_code, class="btn btn-ghost w-full") }}</li>
                             {% endfor %}
@@ -101,7 +102,7 @@
                     <div class="max-md:hidden">
                         <label tabindex="0" class="input text-primary bg-primary-content focus:outline-teal-500">
                             {{ content::icon(id="search", class="h-[1em] opacity-50", icons=icons) }}
-                            <input id="desktop-search" type="search" class="search-input grow" placeholder="{{ i18n.search }}">
+                            <input id="desktop-search" type="search" class="search-input grow" placeholder="{{ content::translate(value="Search", i18n=i18n, i18n_user=i18n_user) }}">
                             <kbd class="kbd kbd-sm bg-primary text-primary-content">⌘</kbd>
                             <kbd class="kbd kbd-sm bg-primary text-primary-content">K</kbd>
                         </label>
@@ -121,7 +122,7 @@
                 <div id="search-bar" class="hidden md:hidden pl-2 pr-2 pb-2">
                     <label tabindex="0" class="input text-primary bg-primary-content w-full">
                         {{ content::icon(id="search", class="h-[1em] opacity-50", icons=icons) }}
-                        <input id="mobile-search" type="search" class="search-input grow" placeholder="{{ i18n.search }}">
+                        <input id="mobile-search" type="search" class="search-input grow" placeholder="{{ content::translate(value="Search", i18n=i18n, i18n_user=i18n_user) }}">
                     </label>
                 </div>
             </header>
@@ -158,12 +159,12 @@
                 {% if config.extra.footer.links %}
                 <nav class="grid grid-flow-col gap-4 mb-6">
                     {% for link in config.extra.footer.links %}
-                    <a class="link link-hover" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n[link.i18n_key] }}</a>
+                    <a class="link link-hover" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key]) }}</a>
                     {% endfor %}
                 </nav>
                 {% endif %}
                 <nav class="grid grid-flow-col gap-4 mb-6">
-                        {{ content::social_links(i18n=i18n, icons=icons) }}
+                        {{ content::social_links(i18n=i18n, i18n_user=i18n_user, icons=icons) }}
                         {% if config.generate_feeds %}
                         <a href="{{ content::base_path() }}{% if lang != config.default_language %}{{ lang }}/{% endif %}atom.xml" title="RSS Feed" target="_blank">{{ content::icon(id="rss", class="h-8 w-8", icons=icons) }}</a>
                         {% endif %}
@@ -181,15 +182,15 @@
             <ul class="menu menu-lg bg-base-200 min-h-full w-80 p-4">
                 {% if config.extra.navbar.links %}
                 {% for link in config.extra.navbar.links %}
-                {{ content::drawer_button(url=link.url, text=i18n[link.i18n_key]) }}
+                {{ content::drawer_button(url=link.url, text=i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key])) }}
                 {% endfor %}
                 {% endif %}
                 <hr class="mt-2 mb-2">
                 {% if config.languages | length > 0 %}
                 <li><details>
-                    <summary class="">{{ i18n.language }}</summary>
+                    <summary class="">{{ content::translate(value="Language", i18n=i18n, i18n_user=i18n_user) }}</summary>
                     <ul>
-                        <li><a href="{% if page %}{{ page.permalink }}{% else %}{% endif %}" class="no-underline menu-active">{{ i18n.language_name }}</a></li>
+                        <li><a href="{% if page %}{{ page.permalink }}{% else %}{% endif %}" class="no-underline menu-active">{{ content::translate(value="language_name", i18n=i18n, i18n_user=i18n_user) }}</a></li>
                         {%- for language_code,language in config.languages -%}
                         <li>{{ translation::link_to_translated_page(page=page | default(value=""), language_code=language_code, class="no-underline") }}</li>
                         {% endfor %}
@@ -198,7 +199,7 @@
                 {% endif %}
                 {% if config.extra.enable_theme_switching %}
                 <li><details>
-                    <summary class="">{{ i18n.theme }}</summary>
+                    <summary class="">{{ content::translate(value="Theme", i18n=i18n, i18n_user=i18n_user) }}</summary>
                     <ul>
                         {% for theme in config.extra.themes %}
                         <li><button class="" data-set-theme="{{ theme.identifier }}">{{ theme.name }}</button></li>

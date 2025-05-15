@@ -3,20 +3,20 @@
 {% block content %}
 
 <div class="flex flex-col items-center mt-10">
-    <h1>{{ content::translate(value=taxonomy.name, i18n=i18n) | title }}</h1>
+    <h1>{{ content::translate(value=taxonomy.name, i18n=i18n, i18n_user=i18n_user) | title }}</h1>
 
     <div class="flex grid-flow-row space-x-6 pl-1 mb-2">
     {% for term in terms %}
-    {{ content::term(term=term, i18n=i18n, icons=icons)}}
+    {{ content::term(term=term, i18n=i18n, i18n_user=i18n_user, icons=icons)}}
     {% endfor %}
     </div>
 </div>
 
 {% for term in terms %}
-<h2>{{ content::translate(value=term.name, i18n=i18n) | title }}</h2>
+<h2>{{ content::translate(value=term.name, i18n=i18n, i18n_user=i18n_user) | title }}</h2>
 <ul>
     {% for page in term.pages %}
-    <li><a href="{{ page.permalink }}">{{ page.title }}</a> ({{ page.date | date(format=i18n['language_date_format'], locale=i18n['language_locale']) }})</li>
+    <li><a href="{{ page.permalink }}">{{ page.title }}</a> ({{ page.date | date(format=i18n_user['language_date_format'] | default(value=i18n['language_date_format']), locale=i18n_user['language_locale'] | default(value=i18n['language_locale'])) }})</li>
     {% endfor %}
 </ul>
 {% endfor %}

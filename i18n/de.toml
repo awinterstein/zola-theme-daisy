@@ -18,28 +18,3 @@ theme = "Farbpalette"
 
 email = "E-Mail"
 phone = "Telefon"
-
-
-# Used by sites based on the theme
-# (not necessarily needed in all languages)
-about = "Über"
-blog = "Blog"
-comments = "Kommentare"
-documentation = "Dokumentation"
-example = "Beispiel"
-home = "Home"
-impressum = "Impressum"
-main_skills = "Top-Fähigkeiten"
-movies = "Filme"
-movies_directors = "Regisseure"
-other_skills = "Weitere Fähigkeiten"
-posts = "Posts"
-privacy_policy = "Datenschutzerklärung"
-projects = "Projekte"
-read_more = "Weiterlesen"
-resume = "Lebenslauf"
-sitemap = "Sitemap"
-skills = "Qualifikationen"
-skills_technologies = "Qualifikationen & Technologien"
-tags = "Schlagworte"
-yorgos_lanthimos = "Giorgos Lanthimos"

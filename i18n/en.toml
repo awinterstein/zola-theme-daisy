@@ -18,28 +18,3 @@ theme = "Theme"
 
 email = "Email"
 phone = "Phone"
-
-
-# Used by sites based on the theme
-# (not necessarily needed in all languages)
-about = "About"
-blog = "Blog"
-comments = "Comments"
-documentation = "Documentation"
-example = "Example"
-home = "Home"
-impressum = "Impressum (Legal Notice)"
-main_skills = "Main Skills"
-movies = "Movies"
-movies_directors = "Directors"
-other_skills = "Additional Skills"
-posts = "Posts"
-privacy_policy = "Privacy Policy"
-projects = "Projects"
-read_more = "Read More"
-resume = "CV"
-sitemap = "Sitemap"
-skills = "Skills"
-skills_technologies = "Skills & Technologies"
-tags = "Tags"
-yorgos_lanthimos = "Yorgos Lanthimos"
