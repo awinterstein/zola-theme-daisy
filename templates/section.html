@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="flex flex-col items-center mt-10">
-    <h1>{{ content::translate(value=section.title, i18n=i18n, i18n_user=i18n_user) | title }}</h1>
+    {% if section.title %}<h1>{{ content::translate(value=section.title, i18n=i18n, i18n_user=i18n_user) | title }}</h1>{% endif %}
 
     <p>{{ section.content | safe }}</p>
 
