@@ -73,7 +73,7 @@
             <header class="sticky top-0 z-50 text-primary-content bg-primary shadow-sm opacity-93">
                 <div class="navbar">
                 <div class="navbar-start">
-                    {% if config.title %}<a class="btn btn-ghost hover:bg-primary-content hover:text-primary text-xl" href="{{ content::base_path() }}{% if lang != config.default_language%}{{ lang }}{% endif %}">{{ config.title }}</a>{% endif %}
+                    {% if config.title %}<a class="btn btn-ghost hover:bg-primary-content hover:text-primary text-xl no-underline" href="{{ content::base_path() }}{% if lang != config.default_language%}{{ lang }}{% endif %}">{{ config.title }}</a>{% endif %}
                 </div>
                 <div class="navbar-center max-lg:hidden lg:flex">
                     <ul class="menu menu-horizontal px-1 gap-x-2">

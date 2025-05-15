@@ -166,6 +166,10 @@
         @apply mb-4;
     }
 
+    .btn {
+        @apply no-underline;
+    }
+
     .breadcrumbs {
         a {
             @apply no-underline;
