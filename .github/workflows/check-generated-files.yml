@@ -16,6 +16,7 @@ jobs:
         run: |
           if [ ! -z "$(git status --untracked-files=no --porcelain)" ]; then
             echo "::warning::$(git status --untracked-files=no --porcelain)"
+            git diff
             echo "::error title=Changed files::There are changed files in the repository after build"
             exit 1
           fi
