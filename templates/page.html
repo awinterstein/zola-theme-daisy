@@ -64,7 +64,9 @@
     {% endif %}
 </div>
 
+{% block page_content %}
 {{ page.content | safe }}
+{% endblock %}
 
 {% block page_footer %}
 {% endblock %}
