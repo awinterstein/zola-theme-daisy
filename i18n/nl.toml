@@ -1,0 +1,20 @@
+# Required by the theme
+language_locale = "nl_NL"
+language_date_format = "%d %B %Y"
+
+read = "Lees"
+words = "worden"
+minute = "minuut"
+minutes = "minuten"
+
+
+# Required by the theme
+# (depending on enabled features of the theme)
+search = "Zoek"
+language = "Taal"
+language_name = "Nederlands"
+change_language = "Taal wijzigen"
+theme = "Thema"
+
+email = "E-mail"
+phone = "Telefoon"
