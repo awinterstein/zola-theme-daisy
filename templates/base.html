@@ -142,8 +142,7 @@
                 </div>
             </main>
 
-            {% if paginator and paginator.number_pagers > 1 %}
-            <!-- pagination -->
+            {% if paginator and paginator.number_pagers > 1 %} <!-- pagination -->
             <div class="join mx-auto w-full justify-center mt-4 mb-4">
                 {% for pager in range(start=1, end=paginator.number_pagers+1) %}
                 <a href="{% if pager == 1 %}{{ paginator.first }}{% else %}{{ paginator.base_url }}{{ pager }}{% endif %}"
@@ -152,6 +151,10 @@
                     {{ pager }}
                 </a>
                 {% endfor %}
+            </div>
+            {% elif page.lower or page.higher %} <!-- show steps for weighted pages -->
+            <div class="join w-full justify-center mt-4 mb-4">
+                {{ content::steps_progress(page=page) }}
             </div>
             {% endif %}
 
