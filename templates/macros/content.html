@@ -29,7 +29,7 @@
     {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
         class="bg-secondary text-secondary-content no-underline px-3 rounded-md" {# Highlight button, if button URL is part of the current path. #}
     {% else %} class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" {% endif %}>
-        <span class="{{ text_class }}">{{ text }}</span>
+        <span class="{{ text_class }}">{{ text | capitalize }}</span>
 </a>
 {% endmacro %}
 
@@ -39,7 +39,7 @@
     {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
         class="link no-underline menu-active" {# Highlight button, if button URL is part of the current path. #}
     {% else %} class="link no-underline" {% endif %}>
-        {{ text }}
+        {{ text | capitalize }}
 </a></li>
 {% endmacro %}
 
