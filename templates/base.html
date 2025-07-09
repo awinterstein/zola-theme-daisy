@@ -86,6 +86,7 @@
                     </ul>
                 </div>
                 <div class="navbar-end">
+                    {% block navbar_end %}
                     {%- if config.extra.enable_theme_switching %}{{ themes::theme_dropdown(button=content::icon(id="themes", icons=icons), label=content::translate(value="Theme", i18n=i18n, i18n_user=i18n_user)) }}{% endif %}
                     {% if config.languages | length > 0 %}
                     <div class="dropdown dropdown-end max-lg:hidden">
@@ -117,6 +118,7 @@
                         {{ content::icon(id="x", class="h-5 w-5 swap-on [:checked~*_&]:!rotate-0 [:checked~*_&]:!opacity-100", icons=icons) }}
                     </label>
                     {% endif -%}
+                    {% endblock navbar_end %}
                 </div>
                 </div>
                 <div id="search-bar" class="hidden md:hidden pl-2 pr-2 pb-2">
