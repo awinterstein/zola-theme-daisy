@@ -195,6 +195,11 @@
             @apply no-underline;
         }
     }
+
+    /* There should be no whitespace below the last paragraph within a tooltip. */
+    .tooltip-content p:last-of-type {
+        @apply mb-0 pb-0;
+    }
 }
 
 /* Color definitions for the syntax highlighting */
