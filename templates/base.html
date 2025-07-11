@@ -203,7 +203,7 @@
                         </a>
                         {% endfor %}
                     </div>
-                    {% elif page.lower or page.higher %} <!-- show steps for weighted pages -->
+                    {% elif (page.lower or page.higher) and (page.extra and page.extra.show_steps) %} <!-- show steps for weighted pages -->
                     <div class="join w-full justify-center mt-4 mb-4">
                         {{ content::steps_progress(page=page) }}
                     </div>
