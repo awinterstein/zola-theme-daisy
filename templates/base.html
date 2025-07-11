@@ -78,9 +78,8 @@
                 <div class="navbar-center max-lg:hidden lg:flex">
                     <ul class="menu menu-horizontal px-1 gap-x-2">
                         {% if config.extra.navbar.links -%}
-                        {% for link in config.extra.navbar.links %}
-                        <li>{{ content::navbar_button(url=link.url, text=i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key]), text_class="") }}</li>
-                        {# <li><a class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" href="{{ content::base_path() }}{% if lang != config.default_language and not link.no_translation %}{{ lang }}/{% endif %}{{ link.url}}">{{ i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key]) }}</a></li> #}
+                        {% for entry in config.extra.navbar.links %}
+                        <li>{{ content::navbar_button(entry=entry, text_class="", i18n=i18n, i18n_user=i18n_user) }}</li>
                         {% endfor %}
                         {% endif %}
                     </ul>
@@ -112,13 +111,13 @@
                         {{ content::icon(id="search", icons=icons) }}
                     </label>
                     {% endif %}
+                    {% endblock navbar_end %}
                     {% if config.extra.navbar.links or config.extra.enable_theme_switching or config.languages | length > 0 -%}
                     <label for="main-drawer" aria-label="open sidebar" class="btn btn-square btn-ghost swap swap-rotate hover:bg-primary-content hover:text-primary lg:hidden">
                         {{ content::icon(id="list", class="h-6 w-6 swap-off [:checked~*_&]:!-rotate-45 [:checked~*_&]:!opacity-0", icons=icons) }}
                         {{ content::icon(id="x", class="h-5 w-5 swap-on [:checked~*_&]:!rotate-0 [:checked~*_&]:!opacity-100", icons=icons) }}
                     </label>
                     {% endif -%}
-                    {% endblock navbar_end %}
                 </div>
                 </div>
                 <div id="search-bar" class="hidden md:hidden pl-2 pr-2 pb-2">
@@ -186,8 +185,8 @@
             <label for="main-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu menu-lg bg-base-200 min-h-full w-80 p-4">
                 {% if config.extra.navbar.links %}
-                {% for link in config.extra.navbar.links %}
-                {{ content::drawer_button(url=link.url, text=i18n_user[link.i18n_key] | default(value=i18n[link.i18n_key])) }}
+                {% for entry in config.extra.navbar.links %}
+                <li>{{ content::drawer_button(entry=entry, i18n=i18n, i18n_user=i18n_user) }}</li>
                 {% endfor %}
                 {% endif %}
                 <hr class="mt-2 mb-2">

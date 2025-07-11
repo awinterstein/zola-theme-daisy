@@ -6,13 +6,16 @@
 {{- base_without_domain ~ '/' | safe -}}
 {%- endmacro -%}
 
+
 {%- macro include_script(file, additional_tags="") -%}
     <script src="{{ content::base_path() }}{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %} {{ additional_tags | safe }}></script>
 {%- endmacro -%}
 
+
 {%- macro include_stylesheet(file) -%}
     <link rel="stylesheet" href="{{ content::base_path() }}{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
 {%- endmacro -%}
+
 
 {%- macro icon(id, class="", label="", icons="") -%}
 {%- if icons == "" -%}
@@ -20,28 +23,74 @@
 {%- set icons = load_data(path="icons.toml", required=false) -%}
 {%- if not icons -%}{%- set icons = load_data(path="themes/daisy/icons.toml", required=true) -%}{%- endif -%}
 {%- endif -%}
-<svg role="img" aria-label="{% if label != '' %}{{ label }}{% else %}{{ id | capitalize }}{% endif %}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block h-4 w-4 mr-2 {{ class }}" viewBox="0 0 16 16">{{ icons[id] | safe }}</svg>
+<svg role="img" aria-label="{% if label != '' %}{{ label }}{% else %}{{ id | title }}{% endif %}" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="inline-block h-4 w-4 mr-2 {{ class }}" viewBox="0 0 16 16">{{ icons[id] | safe }}</svg>
 {%- endmacro -%}
 
-{% macro navbar_button(url, text, text_class) %}
-{%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang ~ '/' %}{% endif %} {# Empty for default language and language for others. #}
-<a href="{{ content::base_path() }}{{ language_url_part }}{{ url }}"
-    {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
-        class="bg-secondary text-secondary-content no-underline px-3 rounded-md" {# Highlight button, if button URL is part of the current path. #}
-    {% else %} class="hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" {% endif %}>
-        <span class="{{ text_class }}">{{ text | capitalize }}</span>
+
+{% macro navbar_button(entry, text_class, i18n, i18n_user, subentry=false) %}
+{% set text = i18n_user[entry.i18n_key] | default(value=i18n[entry.i18n_key]) | title %}
+{% if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang ~ '/' %}{% endif %} {# Empty for default language and language for others. #}
+
+{% if current_path and ((entry.url !="" and entry.url in current_path) or (entry.url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
+    {# Highlight button, if button URL is part of the current path. #}
+    {% set button_class = "bg-secondary text-secondary-content no-underline px-3 rounded-md" %}
+{% else %}
+    {% if subentry %}
+        {% set hover_color = "base-200" %}
+    {% else %}
+        {% set hover_color = "primary" %}
+    {% endif %}
+    {% set button_class = "hover:bg-"~hover_color~"-content hover:text-"~hover_color~" no-underline px-3 rounded-md" %}
+{% endif %}
+
+{% if entry.submenu %}
+<details>
+    <summary class="{{ button_class }}">{{ text }}</summary>
+    <ul class="bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-scroll">
+        {% for subentry in entry.submenu %}
+        <li>
+        {{ content::navbar_button(entry=subentry, text_class=text_class, i18n=i18n, i18n_user=i18n_user, subentry=true) }}
+        </li>
+        {% endfor %}
+    </ul>
+</details>
+{% else %}
+<a href="{{ content::base_path() }}{{ language_url_part }}{{ entry.url }}" class="{{ button_class }}">
+        <span class="{{ text_class }}">{{ text }}</span>
 </a>
+{% endif %}
 {% endmacro %}
 
-{% macro drawer_button(url, text) %}
+
+{% macro drawer_button(entry, i18n, i18n_user) %}
+{% set text = i18n_user[entry.i18n_key] | default(value=i18n[entry.i18n_key]) | title %}
 {%if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang ~ '/' %}{% endif %} {# Empty for default language and language for others. #}
-<li><a href="{{ content::base_path() }}{{ language_url_part }}{{ url }}"
-    {% if current_path and ((url !="" and url in current_path) or (url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
-        class="link no-underline menu-active" {# Highlight button, if button URL is part of the current path. #}
-    {% else %} class="link no-underline" {% endif %}>
-        {{ text | capitalize }}
-</a></li>
+
+{% if current_path and ((entry.url !="" and entry.url in current_path) or (entry.url=="" and current_path | trim_end_matches(pat=lang ~'/') | trim_end_matches(pat='/' )=="" )) %}
+    {# Highlight button, if button URL is part of the current path. #}
+    {% set selected = true %}
+{% else %}
+    {% set selected = false %}
+{% endif %}
+
+{% if entry.submenu %}
+<details{% if selected %} open{% endif %}>
+    <summary class="link no-underline">{{ text }}</summary>
+    <ul>
+        {% for subentry in entry.submenu %}
+        <li>
+        {{ content::drawer_button(entry=subentry, i18n=i18n, i18n_user=i18n_user) }}
+        </li>
+        {% endfor %}
+    </ul>
+</details>
+{% else %}
+<a href="{{ content::base_path() }}{{ language_url_part }}{{ entry.url }}" class="link no-underline {% if selected %}menu-active{% endif %}">
+        {{ text }}
+</a>
+{% endif %}
 {% endmacro %}
+
 
 {% macro social_links(i18n, icons) %}
 {% if config.extra.social.codeberg %}
@@ -81,6 +130,7 @@
 <a href="tel:{{ config.extra.social.phone }}" title="{{ content::translate(value="Phone", i18n=i18n, i18n_user=i18n_user) }}" target="_blank">{{ content::icon(id="phone", label=i18n_user.phone | default(value=i18n.phone), class="h-8 w-8", icons=icons) }}</a>
 {% endif %}
 {% endmacro %}
+
 
 {% macro cards(pages, i18n, i18n_user, icons) %}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,11 +184,13 @@
 </div>
 {% endmacro %}
 
+
 {% macro term(term, show_count=true, icon_id="tag", i18n, i18n_user, icons) %}
 <span class="flex items-center whitespace-nowrap">
     {{ content::icon(id=icon_id, icons=icons) }}<a href="{{ content::base_path() }}{{term.path | trim_start_matches(pat="/") }}" class="no-underline hover:underline">{{ content::translate(value=term.name, i18n=i18n, i18n_user=i18n_user) }}</a>{% if show_count %}<sup class="ml-1">{{ term.pages | length }}</sup>{% endif %}
 </span>
 {% endmacro %}
+
 
 {# Optionally translates a value, if it exists in the translation file for the current language. If it does not      #}
 {# exist, then just the given value is printed without translating. For being able to load the translation from the  #}
@@ -153,6 +205,7 @@
 {%- endif -%}
 {% endmacro %}
 
+
 {# Shows steps progess, for which it is needed to set the ordering to "weighted" for the section #}
 {% macro steps_progress(page) %}
 <ul class="steps">
@@ -162,6 +215,7 @@
 </ul>
 {% endmacro %}
 
+
 {# Helper macro for recursively adding the steps elemets for all previous / lower pages #}
 {% macro steps_lower(page) %}
 {% if page.lower %}
@@ -169,6 +223,7 @@
 <li class="step step-secondary pl-4"><a href="{{ page.lower.permalink }}">{{ page.lower.title }}</a></li>
 {% endif %}
 {% endmacro %}
+
 
 {# Helper macro for recursively adding the steps elemets for all following / higher pages #}
 {% macro steps_higher(page) %}
