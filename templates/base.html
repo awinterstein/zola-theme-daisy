@@ -163,7 +163,7 @@
                     class="relative col-start-1 row-span-full row-start-1 {% if hide_sidebar %}hidden{% endif %} max-lg:hidden bg-base-200">
                     <div class="absolute inset-0">
                         <div
-                            class="sticky top-12 bottom-0 left-0 h-full max-h-[calc(100dvh-(var(--spacing)*12))] w-2xs overflow-y-auto p-6">
+                            class="sticky top-16 pt-4 bottom-0 left-0 h-full max-h-[calc(100dvh-(var(--spacing)*16))] w-2xs overflow-y-auto px-6">
                             <div>
                                 <nav class="flex flex-col gap-8">
                                     {% block sidebar_content %}{% endblock %}
@@ -177,7 +177,7 @@
                 <div
                     class="relative row-start-1 grid grid-cols-subgrid {% if hide_sidebar %}{% else %}lg:col-start-2{% endif %}">
                     <div
-                        class="isolate grid max-w-2xl grid-cols-1 gap-10 mt-12 pt-10 md:pb-24 xl:max-w-4xl {% if hide_sidebar %}mx-auto{% else %}lg:ml-8{% endif %}">
+                        class="isolate grid max-w-2xl grid-cols-1 gap-10 mt-16 pt-4 md:pb-24 xl:max-w-4xl {% if hide_sidebar %}mx-auto{% else %}lg:ml-8{% endif %}">
                         <!-- search results shown between header and content -->
                         <div tabindex="0"
                             class="search-results dropdown-content hidden bg-base-200 text-base-content rounded-box z-1 p-2 shadow-2xl list-none max-w-4xl flex-row lg:absolute lg:right-0 lg:mr-4 max-md:mt-10">
@@ -209,6 +209,7 @@
                     </div>
                     {% endif %}
 
+                    {% if not config.extra.footer.hide %}
                     <footer class="footer footer-horizontal footer-center bg-base-200 text-base-content rounded pt-6 gap-0">
                         {% if config.extra.footer.links %}
                         <nav class="grid grid-flow-col gap-4 mb-6">
@@ -233,6 +234,7 @@
                         </aside>
                         {% endif %}
                     </footer>
+                    {% endif %}
                 </div>
             </div>
         </div>
