@@ -207,10 +207,10 @@
 
 
 {# Shows steps progess, for which it is needed to set the ordering to "weighted" for the section #}
-{% macro steps_progress(page) %}
-<ul class="steps">
+{% macro steps_progress(page, vertical=false) %}
+<ul class="steps {% if vertical %}steps-vertical{% endif %}">
     {{ content::steps_lower(page=page) }}
-    <li class="step step-secondary pl-4"><a href="{{page.permalink }}">{{ page.title }}</a></li>
+    <li class="step step-secondary pl-4"><a href="{{page.permalink }}" class="font-bold no-underline hover:underline">{{ page.title }}</a></li>
     {{ content::steps_higher(page=page) }}
 </ul>
 {% endmacro %}
@@ -219,8 +219,8 @@
 {# Helper macro for recursively adding the steps elemets for all previous / lower pages #}
 {% macro steps_lower(page) %}
 {% if page.lower %}
-{{ self::steps_lower(page=get_page(path=page.lower.relative_path)) }}
-<li class="step step-secondary pl-4"><a href="{{ page.lower.permalink }}">{{ page.lower.title }}</a></li>
+{{ content::steps_lower(page=get_page(path=page.lower.relative_path)) }}
+<li class="step step-secondary pl-4"><a href="{{ page.lower.permalink }}" class="no-underline hover:underline">{{ page.lower.title }}</a></li>
 {% endif %}
 {% endmacro %}
 
@@ -228,7 +228,7 @@
 {# Helper macro for recursively adding the steps elemets for all following / higher pages #}
 {% macro steps_higher(page) %}
 {% if page.higher %}
-<li class="step pl-4"><a href="{{ page.higher.permalink }}">{{ page.higher.title }}</a></li>
-{{ self::steps_higher(page=get_page(path=page.higher.relative_path)) }}
+<li class="step pl-4"><a href="{{ page.higher.permalink }}" class="no-underline hover:underline">{{ page.higher.title }}</a></li>
+{{ content::steps_higher(page=get_page(path=page.higher.relative_path)) }}
 {% endif %}
 {% endmacro %}
