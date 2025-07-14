@@ -205,6 +205,13 @@
 {%- endif -%}
 {% endmacro %}
 
+{% macro section_toc(pages, current_page) %}
+<ul class="menu w-full">
+    {% for page in pages %}
+    <li><a href="{{ page.permalink }}" class="no-underline {% if page.path == current_page.path %}menu-active{% endif %}">{{ page.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endmacro %}
 
 {# Shows steps progess, for which it is needed to set the ordering to "weighted" for the section #}
 {% macro steps_progress(page, vertical=false) %}
