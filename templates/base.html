@@ -151,7 +151,7 @@
                 </div>
             </div>
 
-            {# The sidebar is not shown by default. Derived templates can show the sidebar, by setting an empty'show_sidebar' block #}
+            {# The sidebar is not shown by default. Derived templates can show the sidebar, by setting an empty 'show_sidebar' block #}
             {% block show_sidebar %}{% set hide_sidebar = true %}{% endblock %}
 
             <!-- content -->
@@ -175,9 +175,9 @@
 
                 <!-- main content -->
                 <main
-                    class="relative row-start-1 grid grid-cols-subgrid {% if hide_sidebar %}{% else %}lg:col-start-2{% endif %}">
+                    class="relative row-start-1 grid grid-cols-subgrid {% if hide_sidebar %}{% else %}lg:col-start-2{% endif %} m-4">
                     <div
-                        class="isolate grid max-w-2xl grid-cols-1 gap-10 mt-16 pt-4 md:pb-24 xl:max-w-4xl {% if hide_sidebar %}mx-auto{% else %}lg:ml-8{% endif %}">
+                        class="isolate grid max-w-2xl grid-cols-1 gap-10 mt-14 md:pt-6 md:pb-24 xl:max-w-4xl {% if hide_sidebar %}mx-auto{% else %}lg:ml-8{% endif %}">
                         <!-- search results shown between header and content -->
                         <div tabindex="0"
                             class="search-results dropdown-content hidden bg-base-200 text-base-content rounded-box z-1 p-2 shadow-2xl list-none max-w-4xl flex-row lg:absolute lg:right-0 lg:mr-4 max-md:mt-10">
