@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="{{ content::base_path() }}{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
 {%- endmacro -%}
 
+{%- macro include_manifest(file) -%}
+    <link rel="manifest" href="{{ content::base_path() }}{{ file | safe }}?{{ get_hash(path=file, base64=true) | truncate(length=6, end="")}}"{% if config.mode=="build" %} integrity="sha384-{{ get_hash(path=file, sha_type=384, base64=true) | safe }}"{% endif %}>
+{%- endmacro -%}
 
 {%- macro icon(id, class="", label="", icons="") -%}
 {%- if icons == "" -%}
