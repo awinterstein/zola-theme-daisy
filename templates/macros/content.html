@@ -47,9 +47,9 @@
 {% endif %}
 
 {% if entry.submenu %}
-<details>
+<details name="Navbar Main Menu">
     <summary class="{{ button_class }}">{{ text }}</summary>
-    <ul class="bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-scroll">
+    <ul class="bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-auto">
         {% for subentry in entry.submenu %}
         <li>
         {{ content::navbar_button(entry=subentry, text_class=text_class, i18n=i18n, i18n_user=i18n_user, subentry=true) }}
