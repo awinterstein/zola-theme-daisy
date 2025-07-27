@@ -115,6 +115,10 @@
         @apply list-decimal;
     }
 
+    .tracking-wide {
+        @apply list-none;
+    }
+
     blockquote {
         p {
             @apply py-0;

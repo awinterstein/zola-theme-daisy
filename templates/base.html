@@ -84,10 +84,9 @@
                         <div class="navbar-center max-lg:hidden lg:flex">
                             <ul class="menu menu-horizontal px-1 gap-x-2">
                                 {% if config.extra.navbar.links -%}
-                                {% for entry in config.extra.navbar.links %}
-                                <li>{{ content::navbar_button(entry=entry, text_class="", i18n=i18n, i18n_user=i18n_user) }}
-                                </li>
-                                {% endfor %}
+                                    {% for entry in config.extra.navbar.links %}
+                                        <li>{{ content::navbar_button(entry=entry, text_class="", i18n=i18n, i18n_user=i18n_user) }}</li>
+                                    {% endfor %}
                                 {% endif %}
                             </ul>
                         </div>

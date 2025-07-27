@@ -30,7 +30,7 @@
 {%- endmacro -%}
 
 
-{% macro navbar_button(entry, text_class, i18n, i18n_user, subentry=false) %}
+{% macro navbar_button(entry, text_class, i18n, i18n_user) %}
 {% set text = i18n_user[entry.i18n_key] | default(value=i18n[entry.i18n_key]) | title %}
 {% if lang == config.default_language %}{% set language_url_part = '' %}{% else %}{% set language_url_part = lang ~ '/' %}{% endif %} {# Empty for default language and language for others. #}
 
@@ -38,22 +38,15 @@
     {# Highlight button, if button URL is part of the current path. #}
     {% set button_class = "bg-secondary text-secondary-content no-underline px-3 rounded-md" %}
 {% else %}
-    {% if subentry %}
-        {% set hover_color = "base-200" %}
-    {% else %}
-        {% set hover_color = "primary" %}
-    {% endif %}
-    {% set button_class = "hover:bg-"~hover_color~"-content hover:text-"~hover_color~" no-underline px-3 rounded-md" %}
+    {% set button_class = "hover:bg-primary-content hover:text-primary no-underline px-3 rounded-md" %}
 {% endif %}
 
 {% if entry.submenu %}
-<details name="Navbar Main Menu">
+<details name="Navbar Menu">
     <summary class="{{ button_class }}">{{ text }}</summary>
-    <ul class="bg-base-200 text-base-content rounded-box z-1 mt-4 w-52 p-2 shadow-sm overflow-auto">
+    <ul class="bg-primary text-primary-content z-1 w-52 p-2 rounded-none rounded-b-lg shadow-sm overflow-auto">
         {% for subentry in entry.submenu %}
-        <li>
-        {{ content::navbar_button(entry=subentry, text_class=text_class, i18n=i18n, i18n_user=i18n_user, subentry=true) }}
-        </li>
+            <li>{{ content::navbar_button(entry=subentry, text_class=text_class, i18n=i18n, i18n_user=i18n_user) }}</li>
         {% endfor %}
     </ul>
 </details>
