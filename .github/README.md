@@ -191,3 +191,24 @@ notice = "This is my <b>copyright</b> notice."
 ```
 
 HTML can be used there.
+
+## Customization
+
+The page template can be extended with custom CSS or JavaScript files (or code) by inheriting the template and overwriting the blocks `extra_headers` or `extra_javascript`. The content of `extra_headers` will be added at the end of the `<head>` section of each page, while the content of `extra_javascript` will be added at the end of the `<body>` section of each page.
+
+```html
+{% extends "daisy/templates/base.html" %}
+
+{% block extra_headers %}
+<!-- add an own stylesheet for example -->
+<link rel="stylesheet" href="{{ get_url(path='my_custom_style.css') }}">
+{% endblock %}
+
+{% block extra_javascript %}
+<script>
+    /* here is some custom JavaScript code */
+</script>
+{% endblock %}
+```
+
+In most cases, however, you would probably not extent the `base` template, but the more specific templates like `page`, `section`, or `index`. As they are themselves derived from the `base` template you can override the `extra_headers` and `extra_javascript` blocks the same way in those cases.
