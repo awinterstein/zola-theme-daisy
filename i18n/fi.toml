@@ -1,0 +1,20 @@
+# Required by the theme
+language_locale = "fi_FI"
+language_date_format = "%-d. %Bta %Y"
+
+read = "Lue"
+words = "sanaa"
+minute = "minuutti"
+minutes = "minuuttia"
+
+
+# Required by the theme
+# (depending on enabled features of the theme)
+search = "Hae"
+language = "Kieli"
+language_name = "Suomi"
+change_language = "Vaihda kieli"
+theme = "Teema"
+
+email = "Sähköposti"
+phone = "Puhelin"

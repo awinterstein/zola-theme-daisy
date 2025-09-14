@@ -31,7 +31,7 @@ The Daisy theme supports all [built-in color themes of DaisyUI](https://daisyui.
 
 ## Quick Start
 
-The installation of the theme works the same as for other Zola themes. As it is described in the [official documentation](https://www.getzola.org/documentation/themes/installing-and-using-themes/). Hence, it fist needs to be added as a git submodule:
+The installation of the theme works the same as for other Zola themes. As it is described in the [official documentation](https://www.getzola.org/documentation/themes/installing-and-using-themes/). Hence, it first needs to be added as a git submodule:
 
 ```bash
 cd my-zola-website
@@ -101,7 +101,7 @@ taxonomies = [
 
 Taxonomies should have exactly the same (not translated) name in all languages, for the language switching to work best.
 
-You need to create an i18n file containing the translations for all theme variables for all the languages of your website, if they are not included in the theme. Right now, [English](i18n/en.toml), [German](i18n/de.toml) and [Hungarian](i18n/hu.toml) are included. You can create a the directory `i18n` in your website root directory and the language files in there will be picked up by the theme. It would be great, however, if you create a [pull-request](https://codeberg.org/winterstein/zola-theme-daisy/pulls) on the theme repository to add your translations to the theme.
+You need to create an i18n file containing the translations for all theme variables for all the languages of your website, if they are not included in the theme. Right now, [English](i18n/en.toml), [German](i18n/de.toml), [Hungarian](i18n/hu.toml), [Finnish](i18n/fi.toml) are included. You can create a the directory `i18n` in your website root directory and the language files in there will be picked up by the theme. It would be great, however, if you create a [pull-request](https://codeberg.org/winterstein/zola-theme-daisy/pulls) on the theme repository to add your translations to the theme.
 
 ### Search
 
